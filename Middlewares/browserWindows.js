@@ -36,5 +36,22 @@ module.exports = {
         stage.on('close', () => {
             stage = null
         })
+    },
+    initialInventory: (stage, url, closable) => {
+        stage = new Electron.BrowserWindow({
+            minWidth: 900, minHeight: 600, maxWidth: 1200, maxHeight: 650, width: 900, height: 600, maximizable: false, minimizable: false, focusable: true, hasShadow: true, modal: true, show: false, parent: mainWindows, closable
+        })
+
+        stage.loadURL(url)
+        stage.on('ready-to-show', () => {
+            stage.show()
+            stage.center()
+        })
+        stage.on('show', () => {
+            stage.focus()
+        })
+        stage.on('close', () => {
+            stage = null
+        })
     }
 }

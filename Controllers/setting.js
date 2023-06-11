@@ -42,6 +42,9 @@ class Setting {
             },
             accountForm: (req, res) => {
                 res.render('setting/account/new/index', { query: req.query })
+            },
+            initialInventory: (req, res) => {
+                res.render('setting/inventory/initial/index', { query: req.query })
             }
         }
         this.post = {
