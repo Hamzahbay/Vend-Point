@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/home.css">
+    <title>Home</title>
+</head>
+<body>
+
+    <!-- navbar / sidebar -->
+    <div class="nav-btn" data-status="close"><img src="img/menu-blue.png" alt=""></div>
+    <div class="nav-open display-none"></div>
+    <div class="navbar">
+        <div class="card actived" data-href="/home"><span class="img"><img src="img/homepage.png" alt=""></span><span>Beranda</span></div>
+        <div class="card" data-href="/product"><span class="img"><img src="img/box.png" alt=""></span><span>Produk</span></div>
+        <div class="card" data-href="/selling"><span class="img"><img src="img/cart1.png" alt=""></span><span>Penjualan</span></div>
+        <div class="card" data-href="/purchase"><span class="img"><img src="img/cart.png" alt=""></span><span>Pembelian</span></div>
+        <div class="card" data-href="/expenses"><span class="img"><img src="img/expenses.png" alt=""></span><span>Pengeluaran</span></div>
+        <div class="card" data-href="/inclusion"><span class="img"><img src="img/rupiah.png" alt=""></span><span>Pemasukan Lain</span></div>
+        <div class="card" data-href="/report"><span class="img"><img src="img/graph.png" alt=""></span><span>Laporan</span></div>
+        <div class="card" data-href="/setting"><span class="img"><img src="img/settings.png" alt=""></span><span>Pengaturan</span></div>
+    </div>
+
+    <div class="container">
+        <div class="first-content content">
+            <div class="report-box" data-note="qty" data-name="Barang Terjual Hari Ini">
+                <h3>Barang Terjual Hari Ini</h3>
+                <p>44</p>
+            </div>
+            <div class="report-box" data-note="selling" data-name="Penjualan Hari Ini">
+                <h3>Penjualan Hari Ini</h3>
+                <p><em>Rp.</em> 3,341,145</p>
+            </div>
+            <div class="report-box" data-note="purchase" data-name="Barang Terlaris Hari ini">
+                <h3>Barang Terlaris Hari Ini</h3>
+                <p>Honda Beat 2014 Fi</p>
+            </div>
+        </div>
+        <div class="second-content content">
+            <div class="graph">
+                <div class="chart-container">
+                    <canvas id="myChart"></canvas>
+                </div>                  
+            </div>
+            <div class="others"><a href="#">Selengkapnya..</a></div>
+        </div>
+        <div class="third-content content">
+            <div class="report-box" data-note="Pembeli Hari Ini">
+                <h3>Pembeli Hari Ini</h3>
+                <div class="graph">
+                    <div class="chart-container">
+                        <canvas id="myChart1"></canvas>
+                    </div> 
+                </div>
+                <div class="others"><a href="#">Selengkapnya..</a></div>
+            </div>
+            <div class="report-box" data-note="Stock Menipis">
+                <h3>Stock Menipis</h3>
+                <div class="graph">
+                    <div class="chart-container">
+                        <canvas id="myChart2"></canvas>
+                    </div> 
+                </div>
+                <div class="others"><a href="#">Selengkapnya..</a></div>
+            </div>
+        </div>
+        <!-- admin only( -->
+        <div class="fourth-content content">
+            <div class="report-box" data-status="permanent">
+                <h3>Penjualan Jatuh Tempo</h3>
+                <div class="report-content">
+                    <p>Terdapat 2 faktur penjualan yang jatuh tempo pada hari ini:</p>
+                    <ul>
+                        <li>No. Faktur: 001, Atas nama Ganjar</li>
+                        <li>No. Faktur: 002, Atas nama Mega Puan</li>
+                    </ul>
+                    <div class="others" data-role=""><a href="#">Selengkapnya..</a></div>
+                </div>
+            </div>
+            <div class="report-box" data-status="permanent">
+                <h3>Pembelian Jatuh Tempo</h3>
+                <div class="report-content">
+                    <p>Terdapat 1 faktur pembelian yang jatuh tempo pada hari ini:</p>
+                    <ul>
+                        <li>No. Faktur: 001, Dengan pemasok Bintang Langit sejahtera</li>
+                    </ul>
+                    <div class="others" data-role=""><a href="#">Selengkapnya..</a></div>
+                </div>
+            </div>
+            <div class="report-box memo-report-box" data-status="temporarly">
+                <div class="delete-memo"><img src="img/plus.png" alt=""></div>
+                <h3>bayar lampu</h3>
+                <div class="report-content">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium laudantium tenetur numquam voluptatem nobis itaque, quod voluptatibus at molestias natus voluptatum quibusdam.</p>
+                    <div class="others" data-role=""><em>memo tempel</em></div>
+                </div>
+            </div>
+            <div class="report-box plus-report-box">
+                <div class="report-content">
+                    <img src="img/plus.png" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="others-memo"><p>klik untuk melihat memo pengingat lainya</p></div>
+        <!-- ) -->
+    </div>
+
+    <div class="plus-report-box-mouseover display-none">Tambah memo</div>
+
+    <!-- add new memo -->
+    <div class="form-popup memo-form-popup" id="myForm">
+        <form action="/submit-form" method="POST" class="form-container">
+            <h2>Tambah Memo</h2>
+            
+            <div class="ctn-for-add-date">
+                <label for="memoType"><b>Tipe Memo</b></label>
+                <select name="memoType" id="memoType">
+                    <option id="stickyMemo" value="stickyMemo" selected>Memo Tempel</option>
+                    <option id="reminderMemo" value="reminderMemo">Memo Pengingat</option>
+                </select>
+
+                <label for="memoTitle"><b>Judul</b></label>
+                <input type="text" placeholder="masukan judul memo" name="memoTitle" required>
+                
+                <label for="memoContainer"><b>Isi</b></label>
+                <input type="text" placeholder="masukan isi memo" name="memoContainer" required>
+
+                <div class="for-ctn-add-date-div display-none">
+                    <label for="memoDate"><b>Tanggal Pengingat</b></label>
+                    <input type="date" placeholder="masukan tanggal" name="memoDate" required>
+                </div>
+            </div>
+            
+            <div class="btn-content">
+                <button type="button" class="btn cancel cancel-btn-memo-form-popup" id="closeFormBtn">Batal</button>
+                <button type="submit" class="btn">Simpan</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="memo-reminder-popup display-none" id="">
+        <div class="memo-reminder-container">
+            <div class="close-memo-popup"><img src="img/plus.png" alt=""></div>
+            <h2>Memo Pengingat</h2>
+            <div class="mrc">
+                <!-- <p>Belum ada memo pengingat</p> -->
+                <div class="report-box" data-status="temporarly">
+                    <div class="delete-memo"><img src="img/plus.png" alt=""></div>
+                    <h3>bayar pajak</h3>
+                    <div class="report-content">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium laudantium tenetur numquam voluptatem nobis itaque, quod voluptatibus at molestias natus voluptatum quibusdam.</p>
+                        <div class="others" data-role=""><em>Senin, 09/12/2023</em></div>
+                    </div>
+                </div>
+                <div class="report-box" data-status="temporarly">
+                    <div class="delete-memo"><img src="img/plus.png" alt=""></div>
+                    <h3>bayar pajak</h3>
+                    <div class="report-content">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium laudantium tenetur numquam voluptatem nobis itaque, quod voluptatibus at molestias natus voluptatum quibusdam.</p>
+                        <div class="others" data-role=""><em>Senin, 09/12/2023</em></div>
+                    </div>
+                </div>
+                <div class="report-box" data-status="temporarly">
+                    <div class="delete-memo"><img src="img/plus.png" alt=""></div>
+                    <h3>bayar pajak</h3>
+                    <div class="report-content">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium laudantium tenetur numquam voluptatem nobis itaque, quod voluptatibus at molestias natus voluptatum quibusdam.</p>
+                        <div class="others" data-role=""><em>Senin, 09/12/2023</em></div>
+                    </div>
+                </div>
+                <div class="report-box" data-status="temporarly">
+                    <div class="delete-memo"><img src="img/plus.png" alt=""></div>
+                    <h3>bayar pajak</h3>
+                    <div class="report-content">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium laudantium tenetur numquam voluptatem nobis itaque, quod voluptatibus at molestias natus voluptatum quibusdam.</p>
+                        <div class="others" data-role=""><em>Senin, 09/12/2023</em></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+      
+    
+</body>
+<script src="library/package/dist/chart.umd.js"></script>
+<script src="script/home.js"></script>
+</html>

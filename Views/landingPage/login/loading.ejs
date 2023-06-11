@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading</title>
+</head>
+<style>
+    @font-face {
+    font-family: 'Noto Sans';
+    src: url('./../font/NotoSans-Regular.ttf');
+    }
+    @font-face {
+        font-family: 'Prompt';
+        src: url('./../font/Prompt-Regular.ttf');
+    }
+
+    .loading-body {
+        background-color: #F6F1F1;
+        font-family: 'Prompt', sans-serif;
+        padding: 0;
+        margin: 0;
+        cursor: default;
+    }
+
+    .loading-primary {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        cursor: none;
+        z-index: 1;
+    }
+    .loading-primary h1 {
+        font-size: 1000%;
+        background-image: linear-gradient(to bottom right, rgba(25, 167, 206, 1) 45%, rgba(20, 108, 148, 1) 45%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        transition: linear 1s;
+        animation: loading linear infinite 1.5s;
+    }
+
+    .loading-nt {
+        position: fixed;
+        z-index: 2;
+    }
+
+    .loading-bg {
+        width: 100vw;
+        height: 100vh;
+        background-color: #F6F1F1;
+        cursor: none;
+        position: fixed;
+    }
+    .display-none {
+        display: none;
+    }
+
+    @keyframes loading {
+        0% { 
+            transform: rotateY(0deg);
+            scale: 1;
+        }
+        20% { 
+            transform: rotateY(72deg);
+            scale: 1.1;
+        }
+        40% { 
+            transform: rotateY(144deg);
+            scale: 1.2;
+        }
+        60% { 
+            transform: rotateY(216deg);
+            scale: 1.2;
+        }
+        80% { 
+            transform: rotateY(288deg);
+            scale: 1.1;
+        }
+        100% { 
+            transform: rotateY(360deg);
+            scale: 1;
+        }
+    }
+</style>
+<body class="loading-body">
+
+    <div class="loading-primary"><h1>V</h1></div>
+    <div class="loading-nt">Memuat Data...</div>
+    <div class="loading-bg"></div>
+
+    <form action="/open-data/login/<%= query.id %>" method="post" class="display-none log-form">
+        <input type="text" name="name">
+        <input type="password" name="password">
+    </form>
+    
+</body>
+<script>
+    // let v = document.querySelector('.primary h1')
+
+    // const loadingAnimate = () => {
+    //     for( let i = 0; i <= 360; i++ ) {
+    //         v.style.transform = `rotate(${i}deg)`
+    //     }
+    // }
+
+    // loadingAnimate()
+
+    setTimeout(() => {
+        document.querySelector('.log-form').submit()
+    }, 1500)
+</script>
+</html>

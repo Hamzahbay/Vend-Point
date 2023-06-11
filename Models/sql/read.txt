@@ -1,0 +1,15 @@
+    constructor(dir, name): This is the constructor function for the Table class. It takes two arguments, dir and name, which specify the directory of the database file and the name of the table, respectively.
+
+    CREATE(...column): This method creates a new table in the database with the given name and columns. It takes a rest parameter column, which is an array of objects that represent the columns of the table. Each object has two properties, name and dataType, which specify the name and data type of the column, respectively. The method returns a promise that resolves to a success message or rejects with an error message.
+
+    DROP(): This method deletes the table from the database. It returns a promise that resolves to a success message or rejects with an error message.
+
+    UPDATE(newName): This method updates the name of the table to the given name. It takes a single argument, newName, which is a string representing the new name of the table. It returns a promise that resolves to a success message or rejects with an error message.
+
+    UPDATE_DATA_TYPE(columnName, newDataType): This method changes the data type of the specified column in the table. It takes two arguments, columnName and newDataType, which represent the name of the column and the new data type, respectively. It returns a promise that resolves to a success message or rejects with an error message.
+
+    UPDATE_COLUMN_NAME(columnName, newColumnName): This method changes the name of the specified column in the table. It takes two arguments, columnName and newColumnName, which represent the current name of the column and the new name, respectively. It returns a promise that resolves to a success message or rejects with an error message.
+
+    INSERT(...data): This method inserts a new row of data into the table. It takes a rest parameter data, which represents the values to be inserted into the row. It returns a promise that resolves to a success message or rejects with an error message.
+
+    UPDATE(newData): This method updates an existing row of data in the table. It takes a single argument newData, which is an object representing the new data to be updated. The keys of the object represent the column names, and the values represent the new values to be updated. It returns a promise that resolves to a success message or rejects with an error message.

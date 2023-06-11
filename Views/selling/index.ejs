@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/selling.css">
+    <title>Selling</title>
+</head>
+<body>
+
+    <!-- navbar / sidebar -->
+    <div class="nav-btn" data-status="close"><img src="img/menu-blue.png" alt=""></div>
+    <div class="nav-open display-none"></div>
+    <div class="navbar">
+        <div class="card" data-href="/home"><span class="img"><img src="img/homepage.png" alt=""></span><span>Beranda</span></div>
+        <div class="card" data-href="/product"><span class="img"><img src="img/box.png" alt=""></span><span>Produk</span></div>
+        <div class="card actived" data-href="/selling"><span class="img"><img src="img/cart1.png" alt=""></span><span>Penjualan</span></div>
+        <div class="card" data-href="/purchase"><span class="img"><img src="img/cart.png" alt=""></span><span>Pembelian</span></div>
+        <div class="card" data-href="/expenses"><span class="img"><img src="img/expenses.png" alt=""></span><span>Pengeluaran</span></div>
+        <div class="card" data-href="/inclusion"><span class="img"><img src="img/rupiah.png" alt=""></span><span>Pemasukan Lain</span></div>
+        <div class="card" data-href="/report"><span class="img"><img src="img/graph.png" alt=""></span><span>Laporan</span></div>
+        <div class="card" data-href="/setting"><span class="img"><img src="img/settings.png" alt=""></span><span>Pengaturan</span></div>
+    </div>
+
+    <div class="container">
+        <div class="first-content content">
+            <div class="title"><h2>Penjualan</h2></div>
+            <div class="box">
+                <div class="box-list" data-href="/selling/invoice">
+                    <img src="img/invoice.png" alt="">
+                    <p>Faktur</p>
+                </div>
+                <div class="box-list" data-href="/selling/returns">
+                    <img src="img/return-box.png" alt="">
+                    <p>Retur</p>
+                </div>
+                <div class="box-list" data-href="/selling/debt">
+                    <img src="img/debt.png" alt="">
+                    <p>Piutang</p>
+                </div>
+                <div class="box-list" data-href="/selling/sellingList">
+                    <img src="img/detail1.png" alt="">
+                    <p>Daftar Penjualan</p>
+                </div>
+            </div>
+        </div>
+        <div class="second-content content">
+            <div class="title"><h2>Draft Penjualan</h2></div>
+            <div class="box">
+                <div class="box-list" data-href="/selling/draft/1">
+                    <!-- <div class="delete-list"><img src="img/plus.png" alt=""></div> -->
+                    <img src="img/draft.png" alt="">
+                    <p>Ganjar</p>
+                    <p><em>29/03/2023</em></p>
+                </div>
+                <div class="box-list" data-href="/selling/draft/2">
+                    <!-- <div class="delete-list"><img src="img/plus.png" alt=""></div> -->
+                    <img src="img/draft.png" alt="">
+                    <p>Umum</p>
+                    <p><em>21/11/2023</em></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+<script src="script/selling.js"></script>
+</html>

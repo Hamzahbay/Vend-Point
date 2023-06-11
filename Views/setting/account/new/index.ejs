@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style/newAccount.css">
+    <title>Rekening</title>
+</head>
+<body>
+
+    <div class="container">
+        <form action="/setting/account/new" method="POST" class="form-container">
+            <h2><center><%= query.newAccount != undefined ? 'Tambah':'Perbarui' %> Rekening</center></h2>
+            
+            <div class="form-box">
+                <div class="box mother-box">
+                    <div class="box-container">
+                        <label for=""><b>Jenis akun</b></label>
+                        <select name="type" id="type">
+                            <option id="cash" value="cash" selected>Kas</option>
+                            <option id="receivables" value="receivables">Piutang</option>
+                            <option id="debt" value="debt">Utang</option>
+                        </select>
+                    </div>
+                    
+                    <div class="box-container">
+                        <div class="delete-account display-none"><img src="../../img/plus.png"" alt=""></div>
+                        <label for=""><b>Nominal</b></label>
+                        <input type="text" placeholder="masukan nominal rekening" name="nominal" class="nominal" required>
+                    </div>
+                </div>
+            </div>
+            <div class="add-account"><img src="../../img/plus.png" alt=""></div>
+            
+            <div class="btn-container">
+                <button type="submit" class="btn">Simpan</button>
+            </div>
+        </form>
+    </div>
+    
+</body>
+<script>
+    const box = document.querySelector('.mother-box').outerHTML
+    document.querySelector('.add-account').addEventListener('click', function(e) {
+        let motherThis = this
+        let innerValue = []
+        document.querySelectorAll('.box').forEach(x => {
+            innerValue.push({ selected: x.querySelector('#type').value, nominal: x.querySelector('.nominal').value })
+        })
+        if( document.querySelector('.form-box').children.length >= 2 ) {
+            document.querySelector('.form-box').innerHTML += box
+            e.preventDefault()
+            document.querySelectorAll('.box').forEach((x, key) => {
+                if( innerValue[key] ) {
+                    x.querySelectorAll('option').forEach(y => {
+                        if( y.value == innerValue[key].selected ) return y.setAttribute('selected', 'true')
+                    })
+                    x.querySelector('.nominal').value = innerValue[key].nominal
+                }
+            })
+            document.querySelectorAll('.nominal').forEach(x => {
+                x.addEventListener('keydown', function(e) {
+                    if( isNaN(parseInt(e.key)) == true ) {
+                        if( e.key == 'Backspace' ) return
+                        return e.preventDefault()
+                    }
+                })
+                x.addEventListener('keyup', function(e) {
+                    if( this.value.length > 3 ) {
+                        let valBefore = this.value.split(',')
+                        let valAfter = valBefore.join('').split('').reverse()
+                        let val = []
+            
+                        for( let i = 0; i < valAfter.join('').length; i+=3 ) {
+                            val.push(valAfter.slice(i, i+3).reverse().join(''))
+                        }
+                        this.value = val.reverse()
+                    }
+                })
+            })
+            document.querySelector('.form-box').lastElementChild.querySelector('.delete-account').classList.remove('display-none')
+            document.querySelectorAll('.delete-account').forEach(x => {
+                x.addEventListener('click', function(e) {
+                    this.parentElement.parentElement.remove()
+                    motherThis.classList.remove('display-none')
+                })
+            })
+            return this.classList.add('display-none')
+        }
+        document.querySelector('.form-box').innerHTML += box
+        document.querySelector('.form-box').lastElementChild.querySelector('.delete-account').classList.remove('display-none')
+        document.querySelectorAll('.box').forEach((x, key) => {
+            if( innerValue[key] ) {
+                x.querySelectorAll('option').forEach(y => {
+                    if( y.value == innerValue[key].selected ) return y.setAttribute('selected', 'true')
+                })
+                x.querySelector('.nominal').value = innerValue[key].nominal
+            }
+        })
+        document.querySelectorAll('.nominal').forEach(x => {
+            x.addEventListener('keydown', function(e) {
+                if( isNaN(parseInt(e.key)) == true ) {
+                    if( e.key == 'Backspace' ) return
+                    return e.preventDefault()
+                }
+            })
+            x.addEventListener('keyup', function(e) {
+                if( this.value.length > 3 ) {
+                    let valBefore = this.value.split(',')
+                    let valAfter = valBefore.join('').split('').reverse()
+                    let val = []
+        
+                    for( let i = 0; i < valAfter.join('').length; i+=3 ) {
+                        val.push(valAfter.slice(i, i+3).reverse().join(''))
+                    }
+                    this.value = val.reverse()
+                }
+            })
+        })
+        document.querySelectorAll('.delete-account').forEach(x => {
+            x.addEventListener('click', function(e) {
+                this.parentElement.parentElement.remove()
+            })
+        })
+    })
+    document.querySelectorAll('.nominal').forEach(x => {
+        x.addEventListener('keydown', function(e) {
+            if( isNaN(parseInt(e.key)) == true ) {
+                if( e.key == 'Backspace' ) return
+                return e.preventDefault()
+            }
+        })
+        x.addEventListener('keyup', function(e) {
+            if( this.value.length > 3 ) {
+                let valBefore = this.value.split(',')
+                let valAfter = valBefore.join('').split('').reverse()
+                let val = []
+    
+                for( let i = 0; i < valAfter.join('').length; i+=3 ) {
+                    val.push(valAfter.slice(i, i+3).reverse().join(''))
+                }
+                this.value = val.reverse()
+            }
+        })
+    })
+</script>
+</html>

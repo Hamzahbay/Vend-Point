@@ -1,0 +1,35 @@
+{
+  "name": "vend-point",
+  "version": "1.0.0",
+  "description": "Cashier and Simple Accountant Desktop Application",
+  "main": "app.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "nodemon app.js",
+    "start": "nodemon --exec electron ."
+  },
+  "author": "500",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.2",
+    "chart.js": "^4.3.0",
+    "connect-flash": "^0.1.1",
+    "ejs": "^3.1.9",
+    "electron": "^23.2.0",
+    "express": "^4.18.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-layout": "^0.1.0",
+    "express-session": "^1.17.3",
+    "flash": "^1.1.0",
+    "moment": "^2.29.4",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "sequelize": "^6.31.1",
+    "socket.io": "^4.6.1",
+    "sqlite3": "^5.1.6"
+  },
+  "permissions": [
+    "fileSystem"
+  ]
+}

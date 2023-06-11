@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/landingPage.css">
+    <title>Vend Point</title>
+</head>
+<body>
+
+    <div class="title" data-animation="<%= dataQuery.animation == 'off' ? 'off' : 'on' %>">
+        <div class="animate">
+            <div class="primary aa"><h1>V</h1></div>
+            <div class="secondary aa"><h1>end Point</h1></div>
+        </div>
+    </div>
+
+    <div class="contain">
+        <div class="box">
+            <button id="newDataBtn" data-id="new" data-detail="Tambah Data Baru"><img src="img/plus.png" alt=""></button>
+            <button id="existingDataBtn" data-id="existing" data-detail="Pilih Data"><img src="img/list.png" alt=""></button>
+        </div>
+    </div>
+    <div class="btn-detail"></div>
+
+    <div class="footer">
+        <div class="detail">
+            <div class="box">
+                <div class="img qq"><img src="img/easy.png" alt=""></div>
+                <div class="box-title qq">
+                    <div class="box-pre">Simple and Easy to Use</div>
+                    <div class="box-pra">Simple cashier application and Easy to use without any more mistake</div>
+                </div>
+            </div>
+        </div>
+        <div class="cpr">
+            <center>500 | CopyRight 2023</center>
+        </div>
+    </div>
+
+    <div class="popup-activate display-none"></div>
+    <div class="popup-submit-btn-activate display-none"></div>
+    <div class="popup display-none">
+        <div class="popup-title">
+            <div class="popup-close"><img src="img/plus-white.png" alt=""></div>
+            <h1 id="popup-title-swap">Tambah Data Baru</h1>
+        </div>
+        <div class="popup-contain">
+            <div class="new-data display-none">
+                <form method="get" action="/register" id="newDataForm">
+                    <div class="form-box">
+                        <div class="form form1">
+                            <div class="form-title"><p>Nama Data</p></div>
+                            <div class="form-contain">
+                                <input type="text" name="dataName" id="dataName" autocomplete="off" maxlength="32">
+                                <input type="checkbox" name="passwordChecker" id="passwordChecker" class="display-none">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="submit-box">
+                    <button id="submit-btn">Lanjut</button>
+                </div>
+            </div>
+            <div class="existing-data display-none">
+                <div class="data-box">
+                    <% dataOption.forEach(x => { %>
+                        <% if( x.endTime != undefined ) { %>
+                    <div class="card card1" data-path="<%= x.data.path %>" data-set-password="<%= x.data.setPassword %>" data-date="<%= x.data.date %>" data-end-time-name="<%= x.endTime.name %>" data-end-time="<%= x.endTime.time %>" data-id="<%= x.data.id %>">
+                        <div class="img"><img src="img/book.png" alt=""></div>
+                        <div class="name"><%= x.data.name %></div>
+                    </div>
+                        <% } %>
+                    <% }) %>
+                    <div class="card last-card open-other">
+                        <div class="img"><img src="img/plus-white.png" alt=""></div>
+                        <div class="name">Pilih data:</div>
+                    </div>
+                </div>
+                <div class="choose-file-box">
+                    <!-- <button id="submit-btn">Lanjut</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup-submit-btn display-none">
+        <div class="popup-submit-btn-title">
+            <div class="popup-close"><img src="img/plus-white.png" alt=""></div>
+            <h1>Konfirmasi Data Baru</h1>
+        </div>
+        <div class="popup-submit-btn-contain">
+            <input type="checkbox" id="passwordCheck">
+            <label for="passwordCheck" id="labelForPasswordChecker">Aktifkan password</label>
+            <p>(Dengan mengaktifkan password, anda bisa menambah user(karyawan) dan anda akan diminta memasukan password saat memilih data)</p>
+        </div>
+        <div class="popup-submit-btn-submit-box">
+            <button id="submit-btn-popup" type="submit">Lanjut</button>
+        </div>
+    </div>
+
+    <%- dataQuery.errorMessage != undefined ? `<div class="error-message">${dataQuery.errorMessage}</div>` : '' %>
+
+    <div class="loading display-none">
+        <div class="loading-primary"><h1>V</h1></div>
+        <div class="loading-nt">Menyiapkan data...</div>
+        <div class="loading-bg"></div>
+    </div>
+    
+</body>
+<script src="library/socket.io/socket.io.min.js"></script>
+<script src="script/landingPage.js"></script>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/register.css">
+    <title>Register</title>
+</head>
+<body>
+
+    <div class="back">
+        <img src="../img/left-arrow-blue.png" alt="">
+    </div>
+    <div class="container">
+        <div class="first-content">
+            <div class="title">
+                <div class="primary aa"><h1>V</h1></div>
+                <div class="secondary aa"><h1>end Point</h1></div>
+            </div>
+            <form action="/register/open-dialog" method="get" class="display-none open-dialog">
+                <input type="text" name="dataName" value="<%= dataQuery.dataName %>">
+                <input type="text" name="passwordChecker" value="<%= dataQuery.passwordChecker %>">
+            </form>
+            <form id="reg-form" action="/register/new-data/<%= dataQuery.dataName %>/<%= dataQuery.passwordChecker || 'off' %>" method="post">
+                <div class="box">
+                    <div class="box-content file-content">
+                        <label for="">Lokasi Data</label>
+                        <div class="input-content">
+                            <input type="text" name="dirPath" id="dirPath" class="input-form" value="<%= folderPath != null ? folderPath : '' %>" required>
+                            <!-- <input type="text" name="dirPath" id="dirPath" class="input-form" value="D:\Program\JS\Desktop\Electron\Sample-folder\New folder" required> -->
+                            <label for="" class="file-btn" data-query1="<%= dataQuery.dataName %>" data-query2="<%= dataQuery.passwordChecker %>">cari</label>
+                        </div>
+                    </div>
+                    <div class="box-content">
+                        <label for="adminName">Nama Pengguna<%= //dataQuery.passwordChecker == 'on' ? 'Admin' : 'Pengguna' %></label>
+                        <div class="input-content">
+                            <input type="text" name="name" id="adminName" class="input-form" maxlength="24" autocomplete="off" required>
+                        </div>
+                    </div>
+                    <% if( dataQuery.passwordChecker == 'on' ) { %>
+                    <div class="box-content">
+                        <label for="adminPassword">Sandi</label>
+                        <div class="input-content">
+                            <input type="password" name="password" id="adminPassword" class="input-form" required minlength="4">
+                        </div>
+                    </div>
+                    <div class="box-content">
+                        <label for="checkPassword">Konfirmasi Sandi</label>
+                        <div class="input-content">
+                            <input type="password" name="checkPassword" id="checkPassword" class="input-form" required>
+                        </div>
+                    </div>
+                    <% } %>
+                    <span class="error-message">
+                        <%- dataQuery.errorMessage != undefined ? `<p class="validate-message">${dataQuery.errorMessage.replace(/-/g, ' ')}</p>` : '' %>
+                    </span>
+                </div>
+            </form>
+            <div class="btn">
+                <button id="submit-btn">Lanjut</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="cpr">500 | CopyRight 2023</div>
+    </div>
+    
+    <div class="loading display-none">
+        <div class="loading-primary"><h1>V</h1></div>
+        <div class="loading-nt">Menyiapkan data...</div>
+        <div class="loading-bg"></div>
+    </div>
+</body>
+<script src="../script/register.js"></script>
+</html>

@@ -1,0 +1,489 @@
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('./../font/NotoSans-Regular.ttf');
+}
+@font-face {
+    font-family: 'Prompt';
+    src: url('./../font/Prompt-Regular.ttf');
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('./../font/Poppins-Regular.ttf');
+}
+@font-face {
+    font-family: 'Bitter';
+    src: url('./../font/static/Bitter-Regular.ttf');
+}
+
+.display-none {
+    display: none;
+}
+
+body {
+    background-color: #f6f1f1;
+    font-family: 'Poppins', sans-serif;
+    padding: 0;
+    margin: 0;
+    cursor: default;
+}
+
+/* navbar style */
+.navbar {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    color: white;
+    list-style: none;
+    font-size: 1.5rem;
+    background-color: #146C94;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    left: -25rem;
+    transition: ease-out .3s;
+    z-index: 2;
+}
+
+.navbar .card {
+    padding: 2rem 5rem;
+    cursor: pointer;
+    transition: ease-in-out .2s;
+}
+.navbar .card .img {
+    float: left;
+    margin-right: 10px;
+    transition: ease-in-out .2s;
+}
+.navbar .card .img img {
+    width: 2rem;
+}
+.navbar .actived {
+    background-color: #19A7CE;
+}
+.navbar .card:hover {
+    background-color: #19A7CE;
+}
+
+.nav-btn {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 2rem;
+    z-index: 3;
+    margin: 10px;
+}
+.nav-btn img {
+    width: 100%;
+    cursor: pointer;
+    transition: ease .2s;
+}
+.nav-btn img:hover {
+    transform: scale(1.3);
+}
+
+.nav-open {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0000003d;
+    z-index: 1;
+    left: 0;
+    top: 0;
+}
+/* end navbar style */
+
+
+.container {
+    margin: 10px;
+    padding: 3vh 3rem;
+}
+.container .content {
+    margin-bottom: 10px;
+}
+.container .first-content {
+    min-width: 900px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.container .first-content .report-box {
+    flex-grow: 1;
+    align-self: baseline;
+    margin: 0 1rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    background-color: #146C94;
+    color: white;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    width: 15vw;
+    min-width: 300px;
+    padding: 0 10px;
+    transition: ease .2s;
+    margin-bottom: 10px;
+}
+.container .first-content .report-box h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+.container .first-content .report-box p {
+    margin-bottom: 10px;
+}
+.container .first-content .report-box:hover {
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.8);
+    /* background-color: #19A7CE; */
+}
+
+.container .second-content {
+    min-width: 900px;
+    margin: 0 1rem;
+    padding: 10px 1rem;
+    background-color: #fff;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: auto;
+    margin-bottom: 10px;
+}
+.container .second-content .others {
+    float: right;
+}
+.container .second-content .graph .chart-container {
+    width: fit-content;
+    height: 500px;
+    margin: 0 auto;
+}
+  
+.container .second-content .graph #myChart {
+    width: 100%;
+    height: 100%;
+}
+
+.container .third-content {
+    min-width: 900px;
+    margin: 0 1rem;
+    padding: 10px 1rem;
+    background-color: #fff;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.container .third-content .report-box {
+    background-color: #fff;
+    /* border: 1px solid #ccc; */
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.container .third-content .graph .chart-container {
+    width: 100%;
+    height: 450px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+}
+
+.container .third-content .graph canvas {
+    width: 100%;
+    height: 100%;
+}
+  
+.container .third-content .report-box h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.container .fourth-content {
+    min-width: 900px;
+    margin: 0 1rem;
+    padding: 10px 1rem;
+    background-color: #fff;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+.container .fourth-content .report-box {
+    /* border: 2px solid #ccc; */
+    /* width: fit-content;
+    height: fit-content; */
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    max-width: 500px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+    overflow-x: hidden;
+}
+.container .fourth-content .report-box h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+.container .fourth-content .report-box .report-content {
+    font-size: 16px;
+}
+.container .fourth-content .report-box .report-content p {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.container .fourth-content .report-box .report-content ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.container .fourth-content .report-box .report-content ul li {
+    margin-bottom: 5px;
+}
+.container .fourth-content .report-box .report-content ul li:before {
+    content: "- ";
+    color: #f44336;
+}
+.container .fourth-content .report-box .delete-memo {
+    float: right;
+    cursor: pointer;
+    transform: rotate(-45deg);
+    transition: linear 200ms;
+}
+.container .fourth-content .report-box .delete-memo img {
+    width: 2rem;
+}
+.container .fourth-content .report-box .delete-memo:hover {
+    scale: 1.2;
+}
+
+.container .fourth-content .plus-report-box {
+    cursor: pointer;
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    filter: brightness(100%);
+    transition: ease-out 200ms;
+}
+.container .fourth-content .plus-report-box img {
+    width: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.container .fourth-content .plus-report-box:hover {
+    filter: brightness(90%);
+    transform: scale(1.2);
+}
+.memo-report-box .others {
+    font-size: smaller;
+}
+
+.plus-report-box-mouseover {
+    position: absolute;
+    background-color: #fff;
+    /* transform: translate(-50%, -50%); */
+}
+
+.container .fourth-content .others {
+    float: right;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Form container */
+  .form-container {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    transition: linear 200ms;
+    margin-top: 15%;
+    opacity: 0;
+  }
+  
+  /* Full-width input fields */
+  .form-container input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-container select {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+  }
+  
+  /* Register button */
+  .form-container .btn-content {
+    float: right;
+    margin-top: 10px;
+  }
+  .form-container .btn {
+    background-color: #19A7CE;
+    color: #ffff;
+    width: 7.5rem;
+    min-width: 5rem;
+    border: none;
+    height: 2rem;
+    padding: 6px 12px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  
+  /* Register button when hovered over */
+  .form-container .btn:hover, .open-button:hover {
+    background-color: #146C94;
+  }
+
+    /* When the Cancel button is hovered over */
+    .form-container .cancel:hover {
+        background-color: #cc0000;
+        color: white;
+      }
+  
+  /* Close button */
+  .form-container .cancel {
+    background-color: #f44336;
+  }
+  
+  /* Clear floats */
+  .form-container::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  /* Styling for the form's header */
+  .form-container h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+
+  .others-memo {
+    float: right;
+    text-decoration: underline;
+    color: #146C94;
+    cursor: pointer;
+  }
+
+.memo-reminder-popup {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.close-memo-popup {
+    float: right;
+    cursor: pointer;
+    transform: rotate(-45deg);
+    transition: linear 200ms;
+}
+.close-memo-popup img {
+    width: 2rem;
+}
+.close-memo-popup:hover {
+    scale: 1.2;
+}
+
+.memo-reminder-popup .memo-reminder-container {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    /* max-width: 500px; */
+    /* min-width: 600px; */
+    border-radius: 10px;
+    transition: linear 200ms;
+    margin-top: 15%;
+    opacity: 0;
+}
+.memo-reminder-popup .memo-reminder-container .mrc {
+    /* min-width: 900px; */
+    margin: 0 1rem;
+    padding: 10px 1rem;
+    /* background-color: #fff;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); */
+    border-radius: 5px;
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+.memo-reminder-popup .memo-reminder-container .mrc .report-box {
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    max-width: 500px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+    overflow-x: hidden;
+}
+.memo-reminder-popup .memo-reminder-container .mrc .report-box h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+.memo-reminder-popup .memo-reminder-container .mrc .report-box .report-content {
+    font-size: 14px;
+}
+.memo-reminder-popup .memo-reminder-container .mrc .report-box .report-content p {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.memo-reminder-popup .memo-reminder-container .mrc .report-box .delete-memo {
+    float: right;
+    cursor: pointer;
+    transform: rotate(-45deg);
+    transition: linear 200ms;
+}
+.memo-reminder-popup .memo-reminder-container .mrc .report-box .delete-memo img {
+    width: 2rem;
+}
+.memo-reminder-popup .memo-reminder-container .mrc .report-box .delete-memo:hover {
+    scale: 1.2;
+}
+.memo-reminder-popup .memo-reminder-container .mrc .report-box .others {
+    float: right;
+    font-size: smaller;
+}

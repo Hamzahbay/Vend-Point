@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/login.css">
+    <title>Login</title>
+</head>
+<body>
+
+    <div class="back">
+        <img src="../img/left-arrow-blue.png" alt="">
+    </div>
+    <div class="container">
+        <div class="first-content">
+            <div class="title">
+                <div class="primary aa"><h1>V</h1></div>
+                <div class="secondary aa"><h1>end Point</h1></div>
+            </div>
+            <form id="log-form" action="/open-data/login/<%= query.id %>" method="post">
+                <div class="box">
+                    <div class="box-content">
+                        <label for="name">Nama Pengguna</label>
+                        <div class="input-content">
+                            <input type="text" name="name" id="name" class="input-form" required autocomplete="off" value="<%= query.name != undefined? query.name : '' %>">
+                        </div>
+                    </div>
+                    <div class="box-content">
+                        <label for="name">Sandi</label>
+                        <div class="input-content">
+                            <input type="password" name="password" id="password" class="input-form" required>
+                        </div>
+                    </div>
+                    <span class="error-message">
+                        <%- query.errorMessage != undefined ? `<p class="validate-message">${query.errorMessage.replace(/-/g, ' ')}</p>` : '' %>
+                    </span>
+                </div>
+            </form>
+            <div class="btn">
+                <button id="submit-btn">Lanjut</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="cpr">500 | CopyRight 2023</div>
+    </div>
+
+    <div class="loading display-none">
+        <div class="loading-primary"><h1>V</h1></div>
+        <div class="loading-nt">Memuat data...</div>
+        <div class="loading-bg"></div>
+    </div>
+    
+</body>
+<script src="../script/login.js"></script>
+</html>
