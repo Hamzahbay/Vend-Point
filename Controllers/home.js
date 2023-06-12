@@ -34,12 +34,16 @@ class Home {
     constructor() {
         this.page = (req, res) => {
             authentication.db.findOne().then(auth => {
-                Account(auth.data.path).findAll().then(async account => {
-                    await res.render('home/index')
-                    if( account.length == 0 ) {
-                        // Electron.app.whenReady().then(() => browserWindow.initialInventory(null, 'http://localhost:1400/setting/inventory/initial?newAccount=on', false)).then(() => console.log('Initial inventory form window showed!')).catch(err => console.log(err))
-                        return Electron.app.whenReady().then(windows => browserWindow.form(null, 'http://localhost:1400/setting/account/new?newAccount=on', false)).then(() => console.log('Form window showed!')).catch(err => console.log(err))
-                    }
+                Product(auth.data.path).findAll().then(product => {
+                    Account(auth.data.path).findAll().then(async account => {
+                        await res.render('home/index')
+                        if( account.length == 0 ) {
+                            Electron.app.whenReady().then(windows => browserWindow.form(null, 'http://localhost:1400/setting/account/new?newAccount=on', false)).then(() => console.log('Form window showed!')).catch(err => console.log(err))
+                        }
+                        if( product.length == 0 ) {
+                            Electron.app.whenReady().then(() => browserWindow.initialInventory(null, 'http://localhost:1400/setting/inventory/initial?newAccount=on', false)).then(() => console.log('Initial inventory form window showed!')).catch(err => console.log(err))
+                        }
+                    }).catch(err => console.log(err))
                 }).catch(err => console.log(err))
             }).catch(err => console.log(err))
         }

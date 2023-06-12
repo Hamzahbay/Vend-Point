@@ -30,7 +30,7 @@ module.exports = (path, callback) => {
             allowNull: false
         },
         price: {
-            type: DataTypes.BIGINT,
+            type: DataTypes.JSON,
             allowNull: false,
             defaultValue: 0
         },

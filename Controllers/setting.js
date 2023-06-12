@@ -76,6 +76,39 @@ class Setting {
 
                 Electron.BrowserWindow.getFocusedWindow().closable = true
                 Electron.BrowserWindow.getFocusedWindow().close()
+            },
+            initialInventory: (req, res) => {
+                let body = req.body
+                let result = []
+                if( Array.isArray(body.name) === false ) {
+                    body.name = [body.name]
+                    body.qty = [body.qty]
+                    body.unit = [body.unit]
+                    body.price = [body.price]
+                }
+                
+                body.name.forEach((name, index) => {
+                    let existingIndex = result.findIndex(item => item.name === name)
+                    let qty = parseInt(body.qty[index])
+                    let price = parseInt(body.price[index].replace(',', ''))
+                    
+                    if (existingIndex !== -1) {
+                      result[existingIndex].qty += qty
+                    } else {
+                      result.push({
+                        name: name,
+                        qty: qty,
+                        unit: body.unit[index],
+                        price: { price, qty, from: 'initial-inventory', date: moment().format() }
+                      })
+                    }
+                })
+                  
+                authentication.db.findOne().then(async auth => {
+                    Product(auth.data.path).bulkCreate(result).then(product => console.log(product)).catch(err => console.log(err))
+                    Electron.BrowserWindow.getFocusedWindow().closable = true
+                    Electron.BrowserWindow.getFocusedWindow().close()
+                }).catch(err => console.log(err))
             }
         }
     }

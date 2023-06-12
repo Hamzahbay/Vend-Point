@@ -1,0 +1,118 @@
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('./../font/NotoSans-Regular.ttf');
+}
+@font-face {
+    font-family: 'Prompt';
+    src: url('./../font/Prompt-Regular.ttf');
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('./../font/Poppins-Regular.ttf');
+}
+@font-face {
+    font-family: 'Bitter';
+    src: url('./../font/static/Bitter-Regular.ttf');
+}
+
+
+.display-none {
+    display: none;
+}
+
+body {
+    background-color: #fefefe;
+    font-family: 'Poppins', sans-serif;
+    padding: 0;
+    margin: 0;
+    cursor: default;
+}
+
+.container {
+    margin: 10px;
+}
+.container .content {
+    margin: 0 auto;
+}
+.container .content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+.container .content table tr th {
+    border-bottom: solid 1px black;
+}
+.container .content table thead tr th:nth-child(1) {
+    width: 5%;
+}
+.container .content table thead tr th:nth-child(2) {
+    width: 45%;
+}
+.container .content table thead tr th:nth-child(3) {
+    width: 10%;
+}
+.container .content table thead tr th:nth-child(4) {
+    width: 10%;
+}
+.container .content table thead tr th:nth-child(5) {
+    width: 30%;
+}
+
+.container .content table tbody tr td {
+    border-bottom: solid .5px gray;
+}
+.container .content table tbody tr td input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.container .content table tbody tr td:nth-child(1) {
+    text-align: center;
+}
+.container .content table tbody tr td img {
+    width: 1rem;
+    transform: rotate(45deg);
+    cursor: pointer;
+    transition: linear 100ms;
+}
+.container .content table tbody tr td img:hover {
+    scale: 1.2;
+}
+
+#addButton {
+    border: none;
+    width: 100%;
+    background-color: #f6f1f1;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    transition: linear 100ms;
+}
+#addButton:hover {
+    filter: brightness(90%);
+}
+#addButton img {
+    width: 2rem;
+}
+.btn-container {
+    float: right;
+    margin: 10px 0;
+}
+.btn {
+    background-color: #19A7CE;
+    color: #ffff;
+    width: 7.5rem;
+    min-width: 5rem;
+    border: none;
+    height: 2rem;
+    padding: 6px 12px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.btn:hover {
+    background-color: #146C94;
+}

@@ -4,9 +4,117 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style/inventoryInitial.css">
     <title>Persediaan Awal</title>
 </head>
 <body>
+
+    <div class="container">
+        <form action="/setting/inventory/initial" method="POST">
+            <div class="title">
+                <h2><center>Persediaan Awal</center></h2>
+            </div>
+            <div class="content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Nama Barang</th>
+                            <th>QTY</th>
+                            <th>Satuan</th>
+                            <th>Harga</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="number">1</td>
+                            <td><input required type="text" name="name" id="name" class="input-data"></td>
+                            <td><input required type="text" name="qty" id="qty" class="input-data only-number"></td>
+                            <td><input required type="text" name="unit" id="unit" class="input-data"></td>
+                            <td><input required type="text" name="price" id="price" class="input-data only-number price"></td>
+                            <td><img src="../../img/plus.png" alt="" class="delete"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="addButton"><img src="../../img/plus.png" alt=""></div>
+            </div>
+            <div class="btn-container">
+                <button type="submit" class="btn">Simpan</button>
+            </div>
+        </form>
+    </div>
     
 </body>
+<script>
+    document.querySelectorAll('.only-number').forEach(x => {
+        x.addEventListener('keydown', function(e) {
+            if( isNaN(e.key) && e.key != 'Backspace' && e.key != 'ArrowLeft' && e.key != 'ArrowRight' && e.key != 'Tab' ) return e.preventDefault()
+            if( e.code == 'Space' ) return e.preventDefault()
+        })
+        x.addEventListener('keyup', function(e) {
+            if( this.value.length > 3 ) {
+                let valBefore = this.value.split(',')
+                let valAfter = valBefore.join('').split('').reverse()
+                let val = []
+            
+                for( let i = 0; i < valAfter.join('').length; i+=3 ) {
+                    val.push(valAfter.slice(i, i+3).reverse().join(''))
+                }
+                this.value = val.reverse()
+            }
+        })
+    })
+
+    const addButton = document.getElementById('addButton')
+    addButton.addEventListener('click', function() {
+        const tbody = document.querySelector('tbody')
+        const lastRow = tbody.lastElementChild
+        const newRow = lastRow.cloneNode(true)
+        const lastRowNumber = parseInt(lastRow.firstElementChild.textContent)
+        newRow.firstElementChild.textContent = (lastRowNumber + 1).toString()
+        newRow.querySelectorAll('.input-data').forEach(input => input.value = '')
+        tbody.appendChild(newRow)
+        newRow.querySelector('.delete').addEventListener('click', function() {
+            if( document.querySelectorAll('.delete').length > 1 ) {
+                const currentRow = this.parentElement.parentElement;
+                currentRow.remove()
+                updateNumbering()
+            }
+        })
+        newRow.querySelectorAll('.only-number').forEach(x => {
+            x.addEventListener('keydown', function(e) {
+                if( isNaN(e.key) && e.key != 'Backspace' && e.key != 'ArrowLeft' && e.key != 'ArrowRight' && e.key != 'Tab' ) return e.preventDefault()
+                if( e.code == 'Space' ) return e.preventDefault()
+            })
+            x.addEventListener('keyup', function(e) {
+                if( this.value.length > 3 ) {
+                    let valBefore = this.value.split(',')
+                    let valAfter = valBefore.join('').split('').reverse()
+                    let val = []
+                
+                    for( let i = 0; i < valAfter.join('').length; i+=3 ) {
+                        val.push(valAfter.slice(i, i+3).reverse().join(''))
+                    }
+                    this.value = val.reverse()
+                }
+            })
+        })
+    })
+
+    function updateNumbering() {
+        const numberCells = document.querySelectorAll('.number')
+        numberCells.forEach((cell, index) => {
+            cell.textContent = (index + 1).toString()
+        })
+    }
+
+    document.querySelector('.delete').addEventListener('click', function() {
+        if( document.querySelectorAll('.delete').length > 1 ) {
+            const currentRow = this.parentElement.parentElement
+            currentRow.remove()
+            updateNumbering()
+        }
+    })
+</script>
 </html>
