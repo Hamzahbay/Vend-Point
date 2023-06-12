@@ -105,7 +105,7 @@ class Setting {
                 })
                   
                 authentication.db.findOne().then(async auth => {
-                    Product(auth.data.path).bulkCreate(result).then(product => console.log(product)).catch(err => console.log(err))
+                    await Product(auth.data.path).bulkCreate(result)
                     Electron.BrowserWindow.getFocusedWindow().closable = true
                     Electron.BrowserWindow.getFocusedWindow().close()
                 }).catch(err => console.log(err))
