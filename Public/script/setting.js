@@ -53,3 +53,9 @@ for( let i = 0; i < document.querySelectorAll('.navbar .card').length; i++ ) {
     })
 }
 // end navbar
+
+for( let i = 0; i < document.querySelectorAll('.container .content .box .box-list').length; i++ ) {
+    document.querySelectorAll('.container .content .box .box-list')[i].addEventListener('click', function(e) {
+        window.location.href = this.dataset.href
+    })
+}

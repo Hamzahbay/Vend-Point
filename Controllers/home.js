@@ -23,6 +23,7 @@ const Expenses = require('../Models/Tables/Expenses')
 const Inclusion = require('../Models/Tables/Inclusion')
 const ExpensesInvoice = require('../Models/Tables/ExpensesInvoice')
 const InclusionInvoice = require('../Models/Tables/InclusionInvoice')
+const Warehouse = require('../Models/Tables/Warehouse')
 
 // Authentication
 const authentication = require('../Config/authentication')
@@ -36,13 +37,16 @@ class Home {
             authentication.db.findOne().then(auth => {
                 Product(auth.data.path).findAll().then(product => {
                     Account(auth.data.path).findAll().then(async account => {
-                        await res.render('home/index')
-                        if( account.length == 0 ) {
-                            Electron.app.whenReady().then(windows => browserWindow.form(null, 'http://localhost:1400/setting/account/new?newAccount=on', false)).then(() => console.log('Form window showed!')).catch(err => console.log(err))
-                        }
-                        if( product.length == 0 ) {
-                            Electron.app.whenReady().then(() => browserWindow.initialInventory(null, 'http://localhost:1400/setting/inventory/initial?newAccount=on', false)).then(() => console.log('Initial inventory form window showed!')).catch(err => console.log(err))
-                        }
+                        Warehouse(auth.data.path).findAll().then(async warehouse => {
+                            await res.render('home/index')
+                            if( product.length == 0 ) {
+                                Electron.app.whenReady().then(() => browserWindow.initialInventory(null, 'http://localhost:1400/setting/inventory/initial?newAccount=on', false)).then(() => console.log('Initial inventory form window showed!')).catch(err => console.log(err))
+                                Electron.app.whenReady().then(() => browserWindow.warehouse(null, 'http://localhost:1400/product/warehouse/edit?newAccount=on&warehouse=' + warehouse.length, false)).then(() => console.log('Warehouse form window showed!')).catch(err => console.log(err))
+                            }
+                            if( account.length == 0 ) {
+                                Electron.app.whenReady().then(() => browserWindow.form(null, 'http://localhost:1400/setting/account/new?newAccount=on', false)).then(() => console.log('Form window showed!')).catch(err => console.log(err))
+                            }
+                        }).catch(err => console.log(err))
                     }).catch(err => console.log(err))
                 }).catch(err => console.log(err))
             }).catch(err => console.log(err))

@@ -24,6 +24,7 @@ const Expenses = require('../Models/Tables/Expenses')
 const Inclusion = require('../Models/Tables/Inclusion')
 const ExpensesInvoice = require('../Models/Tables/ExpensesInvoice')
 const InclusionInvoice = require('../Models/Tables/InclusionInvoice')
+const Warehouse = require('../Models/Tables/Warehouse')
 
 // Authentication
 const authentication = require('../Config/authentication')
@@ -44,7 +45,11 @@ class Setting {
                 res.render('setting/account/new/index', { query: req.query })
             },
             initialInventory: (req, res) => {
-                res.render('setting/inventory/initial/index', { query: req.query })
+                authentication.db.findOne().then(auth => {
+                    Warehouse(auth.data.path).findAll().then(warehouse => {
+                        res.render('setting/inventory/initial/index', { query: req.query, warehouse })
+                    }).catch(err => console.log(err))
+                }).catch(err => console.log(err))
             }
         }
         this.post = {
@@ -96,10 +101,10 @@ class Setting {
                       result[existingIndex].qty += qty
                     } else {
                       result.push({
+                        warehouseId: body.warehouse[index],
                         name: name,
-                        qty: qty,
                         unit: body.unit[index],
-                        price: { price, qty, from: 'initial-inventory', date: moment().format() }
+                        detail: { price, qty, from: 'initial-inventory', date: moment().format() }
                       })
                     }
                 })

@@ -22,6 +22,7 @@ const Expenses = require('../Models/Tables/Expenses')
 const Inclusion = require('../Models/Tables/Inclusion')
 const ExpensesInvoice = require('../Models/Tables/ExpensesInvoice')
 const InclusionInvoice = require('../Models/Tables/InclusionInvoice')
+const Warehouse = require('../Models/Tables/Warehouse')
 
 // Encrypt and decrypt middleware
 const encryption = require('../Middlewares/encrypt')
@@ -199,6 +200,7 @@ class LandingPage {
                         await Purchase(file.fullPath).sequelize.sync({ force: true })
                         await PurchaseInvoice(file.fullPath).sequelize.sync({ force: true })
                         await Memo(file.fullPath).sequelize.sync({ force: true })
+                        await Warehouse(file.fullPath).sequelize.sync({ force: true })
 
                         if( setPassword == true ) {
                             let salt = bcrypt.genSaltSync(10)

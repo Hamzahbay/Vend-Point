@@ -20,6 +20,7 @@
                         <tr>
                             <th></th>
                             <th>Nama Barang</th>
+                            <th>Gudang</th>
                             <th>QTY</th>
                             <th>Satuan</th>
                             <th>Harga</th>
@@ -30,6 +31,13 @@
                         <tr>
                             <td class="number">1</td>
                             <td><input required type="text" name="name" id="name" class="input-data"></td>
+                            <td>
+                                <select name="warehouse" id="warehouse">
+                                    <% warehouse.forEach(x => { %>
+                                        <option value="<%= x.id %>"><%= x.name %></option>
+                                    <% }) %>
+                                </select>
+                            </td>
                             <td><input required type="text" name="qty" id="qty" class="input-data only-number"></td>
                             <td><input required type="text" name="unit" id="unit" class="input-data"></td>
                             <td><input required type="text" name="price" id="price" class="input-data only-number price"></td>
@@ -45,7 +53,14 @@
         </form>
     </div>
     
+    <div class="refresh-btn">
+        <button>Refresh</button>
+    </div>
+
+    <div class="display-none target"></div>
+
 </body>
+<script src="../../script/socket.io.js"></script>
 <script>
     document.querySelectorAll('.only-number').forEach(x => {
         x.addEventListener('keydown', function(e) {
@@ -115,6 +130,21 @@
             currentRow.remove()
             updateNumbering()
         }
+    })
+
+    // document.querySelector('.add-warehouse-btn').addEventListener('click', function(e) {
+    //     e.preventDefault()
+    // })
+
+    document.querySelector('.refresh-btn button').addEventListener('click', function(e) {
+        fetch('http://localhost:1400/setting/inventory/initial?newAccount=on').then(response => response.text()).then(data => {
+            // console.log(data.split('<body>')[1].split('</body>')[0].split('<select name="warehouse" id="warehouse">')[1].split('</select>')[0])
+            // document.querySelector('.target').innerHTML = data.split('<body>')[1].split('</body>')[0].split('<select name="warehouse" id="warehouse">')[1].split('</select>')[0]
+            document.getElementById('warehouse').innerHTML = data.split('<body>')[1].split('</body>')[0].split('<select name="warehouse" id="warehouse">')[1].split('</select>')[0]
+            document.querySelector('.refresh-btn').remove()
+        }).catch(error => {
+            console.error('Error:', error)
+        })
     })
 </script>
 </html>

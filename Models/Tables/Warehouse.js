@@ -9,36 +9,26 @@ module.exports = (path, callback) => {
         logging: false
     })
 
-    const Product = sequelize.define('product', {
+    const Warehouse = sequelize.define('warehouse', {
         id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             autoIncrement: true,
             primaryKey: true
         },
-        warehouseId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
         name: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        unit: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        detail: {
-            type: DataTypes.JSON,
-            allowNull: false,
-            defaultValue: 0
+        note: {
+            type: DataTypes.TEXT
         },
         date: {
             type: DataTypes.STRING,
             defaultValue: dateTimeNow.format()
         }
-    }, { tableName: 'product', freezeTableName: true, timestamps: false })
+    }, { tableName: 'warehouse', freezeTableName: true, timestamps: false })
 
-    // Product.sync({ force: true }).then(() => callback(null, Product)).catch(err => console.log(err))
-    return Product
+    // Warehouse.sync({ force: true }).then(() => callback(null, Warehouse)).catch(err => console.log(err))
+    return Warehouse
 }

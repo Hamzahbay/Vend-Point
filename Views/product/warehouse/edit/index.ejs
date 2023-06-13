@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Gudang</title>
+</head>
+<body>
+
+    <style>
+        @font-face {
+    font-family: 'Noto Sans';
+    src: url('../../../font/NotoSans-Regular.ttf');
+}
+@font-face {
+    font-family: 'Prompt';
+    src: url('../../../font/Prompt-Regular.ttf');
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('../../../font/Poppins-Regular.ttf');
+}
+@font-face {
+    font-family: 'Bitter';
+    src: url('../../../font/static/Bitter-Regular.ttf');
+}
+
+
+.display-none {
+    display: none;
+}
+
+body {
+    background-color: #fefefe;
+    font-family: 'Poppins', sans-serif;
+    padding: 0;
+    margin: 0;
+    cursor: default;
+}
+
+.container {
+    margin: 10px;
+    /* width: 100vw;
+    height: 100vh; */
+}
+
+.form-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    width: 90%;
+    height: 80%;
+    max-width: 900px;
+    max-height: 600px;
+    border-radius: 10px;
+    transition: linear 200ms;
+}
+
+.form-container input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-container .btn-container {
+    position: absolute;
+    bottom: 0;
+    right: 25px;
+}
+.form-container .btn {
+    background-color: #19A7CE;
+    color: #ffff;
+    width: 7.5rem;
+    min-width: 5rem;
+    border: none;
+    height: 2rem;
+    padding: 6px 12px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.form-container .btn:hover {
+    background-color: #146C94;
+}
+
+/* .form-container .form-box .box {
+    display: flex;
+    justify-content: space-between;
+} */
+.form-container .form-box .box .box-container {
+    flex-grow: 1;
+    margin: 0 5px;
+}
+.form-container .close-btn {
+    background-color: red;
+}
+.error-message {
+    background-color: #146C94;
+    position: fixed;
+    bottom: -50px;
+    right: 20px;
+    padding: 10px;
+    font-size: larger;
+    border-radius: 5px;
+    color: white;
+    transition: linear 500ms;
+}
+    </style>
+
+    <div class="container">
+        <form action="/product/warehouse/edit" method="POST" class="form-container">
+            <h2><center>Tambah Gudang</center></h2>
+            
+            <div class="form-box">
+                <div class="box mother-box">
+                    <div class="box-container">
+                        <label for=""><b>Nama</b></label>
+                        <input type="text" placeholder="masukan nama gudang" name="name" required id="name">
+                    </div>
+                    <div class="box-container">
+                        <label for=""><b>Keterangan</b></label>
+                        <input type="text" placeholder="masukan keterangan gudang (optional)" name="note" id="note">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="btn-container">
+                <% if( parseInt(query.warehouse) > 0 ) { %>
+                    <button class="btn close-btn">Tutup</button>
+                <% } %>
+                <button type="submit" class="submit-btn btn">Simpan</button>
+            </div>
+        </form>
+        <form action="/product/warehouse/edit" method="POST" class="display-none close-form">
+            <input type="text" name="status" value="close">
+        </form>
+    </div>
+
+    <%- query.errorMessage != undefined ? `<div class="error-message">Nama gudang telah digunakan</div>` : '' %>
+    
+</body>
+<script src="../../script/socket.io.js"></script>
+<script>
+    const socket = io()
+
+    document.querySelector('.close-btn').addEventListener('click', function(e) {
+        e.preventDefault()
+        document.querySelector('.close-form').submit()
+    })
+    // document.querySelector('.submit-button').addEventListener('click', function(e) {
+    //     if( document.getElementById('name').value != '' ) {
+    //         socket.emit('post', { name: document.getElementById('name').value, note: document.getElementById('note').value })
+    //     }
+    // })
+
+
+    if( document.querySelector('.error-message') != undefined ) {
+    document.querySelector('.error-message').innerText = document.querySelector('.error-message').innerText.split('-').reduce((acc, curr) => acc + ' ' + curr)
+    
+    setTimeout(() => document.querySelector('.error-message').style.bottom = '20px', 100)
+    setTimeout(() => {
+        document.querySelector('.error-message').style.bottom = '-50px'
+        setTimeout(() => document.querySelector('.error-message').remove(), 1000)
+    }, 3200)
+}
+</script>
+</html>
