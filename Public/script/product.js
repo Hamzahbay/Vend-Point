@@ -54,6 +54,10 @@ for( let i = 0; i < document.querySelectorAll('.navbar .card').length; i++ ) {
 }
 // end navbar
 
+window.addEventListener('focus', function(e) {
+    location.reload()
+})
+
 for( let i = 0; i < document.querySelectorAll('.container .content .box .box-list').length; i++ ) {
     document.querySelectorAll('.container .content .box .box-list')[i].addEventListener('click', function(e) {
         window.location.href = this.dataset.href

@@ -64,7 +64,7 @@ body {
 .container .content table tbody tr td {
     border-bottom: solid .5px gray;
 }
-.container .content table tbody tr td input, .container .content table tbody tr td select {
+.container .content table tbody tr td input, .container .content table tbody tr td select, .container .search-bar input {
     width: 100%;
     padding: 12px;
     margin: 8px 0;
@@ -157,4 +157,16 @@ body {
 }
 .refresh-btn button:hover {
     background-color: #146C94;
+}
+
+.error-message {
+    background-color: #146C94;
+    position: fixed;
+    bottom: -50px;
+    right: 20px;
+    padding: 10px;
+    font-size: larger;
+    border-radius: 5px;
+    color: white;
+    transition: linear 500ms;
 }

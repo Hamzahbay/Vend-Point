@@ -7,11 +7,19 @@ const authentication = require('../Config/authentication')
 
 // page handling
 router.get('/', authentication.ensure, controller.get.page)
-router.get('/new', authentication.ensure, controller.get.addStock)
+router.get('/newStock', authentication.ensure, controller.get.newStock)
+router.get('/addStock', authentication.ensure, controller.get.addStock)
+router.get('/editStock', authentication.ensure, controller.get.editStock)
+router.get('/updateStock', authentication.ensure, controller.get.updateStock)
+router.get('/addWarehouse', authentication.ensure, controller.get.addWarehouse)
+router.get('/warehouse/:id', authentication.ensure, controller.get.warehouse)
+router.get('/warehouseDetail/:id', authentication.ensure, controller.get.warehouseDetail)
 router.get('/warehouse/edit', authentication.ensure, controller.get.editWarehouse)
 
 // post handling
-router.post('/new', authentication.ensure, controller.post.addStock)
-router.post('/warehouse/edit', authentication.ensure, controller.post.editWarehouse)
+router.post('/newStock', authentication.ensure, controller.post.newStock)
+router.post('/updateStock/:id', authentication.ensure, controller.post.updateStock)
+router.post('/warehouseDetail/:id/:productId', authentication.ensure, controller.post.warehouse)
+router.post('/warehouse/edit/:newAccount', authentication.ensure, controller.post.editWarehouse)
 
 module.exports = router

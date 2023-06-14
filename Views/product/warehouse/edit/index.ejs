@@ -114,7 +114,7 @@ body {
     </style>
 
     <div class="container">
-        <form action="/product/warehouse/edit" method="POST" class="form-container">
+        <form action="/product/warehouse/edit/<%= query.newAccount != undefined ? query.newAccount:'off' %>" method="POST" class="form-container">
             <h2><center>Tambah Gudang</center></h2>
             
             <div class="form-box">
@@ -131,13 +131,15 @@ body {
             </div>
             
             <div class="btn-container">
-                <% if( parseInt(query.warehouse) > 0 ) { %>
-                    <button class="btn close-btn">Tutup</button>
+                <% if( parseInt(query.warehouse) > 0 && query.newAccount != undefined ) { %>
+                    <% if( query.newAccount == 'on' ) { %>
+                        <button class="btn close-btn">Tutup</button>
+                    <% } %>
                 <% } %>
                 <button type="submit" class="submit-btn btn">Simpan</button>
             </div>
         </form>
-        <form action="/product/warehouse/edit" method="POST" class="display-none close-form">
+        <form action="/product/warehouse/edit/<%= query.newAccount != undefined ? query.newAccount:'off' %>" method="POST" class="display-none close-form">
             <input type="text" name="status" value="close">
         </form>
     </div>

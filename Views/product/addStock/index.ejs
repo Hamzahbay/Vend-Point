@@ -5,25 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../style/inventoryInitial.css">
-    <title>Persediaan Awal</title>
+    <title>Tambah Barang</title>
 </head>
 <body>
 
     <div class="container">
-        <form action="/setting/inventory/initial" method="POST">
+        <form action="/product/newStock" method="POST">
             <div class="title">
-                <h2><center>Persediaan Awal</center></h2>
+                <h2><center>Tambah Barang</center></h2>
             </div>
             <div class="content">
                 <table>
                     <thead>
                         <tr>
                             <th></th>
-                            <th>Nama Barang</th>
-                            <th>Gudang</th>
-                            <th>QTY</th>
-                            <th>Satuan</th>
-                            <th>Harga</th>
+                            <th style="width: 50%;">Nama Barang</th>
+                            <th style="width: 25%;">Gudang</th>
+                            <th style="width: 25%;">Satuan</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -38,9 +36,7 @@
                                     <% }) %>
                                 </select>
                             </td>
-                            <td><input required type="text" name="qty" id="qty" class="input-data only-number"></td>
                             <td><input required type="text" name="unit" id="unit" class="input-data"></td>
-                            <td><input required type="text" name="price" id="price" class="input-data only-number price"></td>
                             <td><img src="../../img/plus.png" alt="" class="delete"></td>
                         </tr>
                     </tbody>
@@ -52,19 +48,11 @@
             </div>
         </form>
     </div>
-    
-    <!-- <div class="refresh-btn">
-        <button>Refresh</button>
-    </div> -->
-
-    <div class="display-none target"></div>
+    <%- query.errorMessage != undefined ? `<div class="error-message">Nama barang telah digunakan</div>` : '' %>
 
 </body>
 <script src="../../script/socket.io.js"></script>
 <script>
-    window.addEventListener('focus', function(e) {
-        this.location.reload()
-    })
     document.querySelectorAll('.only-number').forEach(x => {
         x.addEventListener('keydown', function(e) {
             if( isNaN(e.key) && e.key != 'Backspace' && e.key != 'ArrowLeft' && e.key != 'ArrowRight' && e.key != 'Tab' ) return e.preventDefault()
@@ -135,19 +123,14 @@
         }
     })
 
-    // document.querySelector('.add-warehouse-btn').addEventListener('click', function(e) {
-    //     e.preventDefault()
-    // })
-
-    // document.querySelector('.refresh-btn button').addEventListener('click', function(e) {
-    //     fetch('http://localhost:1400/setting/inventory/initial?newAccount=on').then(response => response.text()).then(data => {
-    //         // console.log(data.split('<body>')[1].split('</body>')[0].split('<select name="warehouse" id="warehouse">')[1].split('</select>')[0])
-    //         // document.querySelector('.target').innerHTML = data.split('<body>')[1].split('</body>')[0].split('<select name="warehouse" id="warehouse">')[1].split('</select>')[0]
-    //         document.getElementById('warehouse').innerHTML = data.split('<body>')[1].split('</body>')[0].split('<select name="warehouse" id="warehouse">')[1].split('</select>')[0]
-    //         document.querySelector('.refresh-btn').remove()
-    //     }).catch(error => {
-    //         console.error('Error:', error)
-    //     })
-    // })
+    if( document.querySelector('.error-message') != undefined ) {
+        document.querySelector('.error-message').innerText = document.querySelector('.error-message').innerText.split('-').reduce((acc, curr) => acc + ' ' + curr)
+        
+        setTimeout(() => document.querySelector('.error-message').style.bottom = '20px', 500)
+        setTimeout(() => {
+            document.querySelector('.error-message').style.bottom = '-50px'
+            setTimeout(() => document.querySelector('.error-message').remove(), 1000)
+        }, 3200)
+    }
 </script>
 </html>

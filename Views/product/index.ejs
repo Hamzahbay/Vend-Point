@@ -25,7 +25,7 @@
 
     <div class="container">
         <div class="first-content content">
-            <div class="title"><h2>Barang / Stock</h2></div>
+            <div class="title"><h2>Barang</h2></div>
             <div class="box">
                 <div class="box-list" data-href="/product/addStock">
                     <img src="img/addStock.png" alt="">
@@ -33,26 +33,24 @@
                 </div>
                 <div class="box-list" data-href="/product/editStock">
                     <img src="img/editStock2.png" alt="">
-                    <p>Edit Barang / Stock</p>
+                    <p>Edit / Cek Barang</p>
                 </div>
-                <div class="box-list" data-href="/product/checkStock">
+                <!-- <div class="box-list" data-href="/product/checkStock">
                     <img src="img/checkStock.png" alt="">
                     <p>Cek Barang / Stock</p>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="second-content content">
             <div class="title"><h2>Gudang</h2></div>
             <div class="box">
-                <div class="box-list" data-href="/product/warehouse1">
-                    <img src="img/warehouse1.png" alt="">
-                    <p>Gudang 1</p>
-                </div>
-                <div class="box-list" data-href="/product/warehouse2">
-                    <img src="img/warehouse1.png" alt="">
-                    <p>Gudang 2</p>
-                </div>
-                <div class="box-list">
+                <% warehouse.forEach(x => { %>
+                    <div class="box-list" data-href="/product/warehouseDetail/<%= x.id %>">
+                        <img src="img/warehouse1.png" alt="">
+                        <p><%= x.name %></p>
+                    </div>
+                <% }) %>
+                <div class="box-list" data-href="/product/addWarehouse">
                     <img src="img/addWarehouse.png" alt="">
                     <p>Tambah Gudang</p>
                 </div>

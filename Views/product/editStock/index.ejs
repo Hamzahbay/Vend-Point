@@ -32,7 +32,7 @@
                 <tbody>
                     <% product.forEach((y, i) => { %>
                         <tr>
-                            <form action="/product/warehouseDetail/<%= params.id %>/<%= y.id %>" method="POST">
+                            <form action="/product/updateStock/<%= y.id %>" method="POST">
                                 <td class="number"><p><%= i+1 %></p></td>
                                 <td class="product-name">
                                     <p><%= y.name %></p>
@@ -88,19 +88,21 @@
 
     document.querySelectorAll('.edit').forEach(x => {
         x.addEventListener('click', function(e) {
-            this.parentElement.previousElementSibling.previousElementSibling.firstElementChild.removeAttribute('disabled')
+            this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.firstElementChild.classList.add('display-none')
+            this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.lastElementChild.classList.remove('display-none')
 
-            this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.firstElementChild.classList.add('display-none')
-            this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.lastElementChild.classList.remove('display-none')
+            this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.firstElementChild.classList.add('display-none')
+            this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.lastElementChild.classList.remove('display-none')
 
             this.classList.add('display-none')
             this.previousElementSibling.classList.remove('display-none')
             this.nextElementSibling.classList.remove('display-none')
             this.previousElementSibling.addEventListener('click', function(e) {
-                this.parentElement.previousElementSibling.previousElementSibling.firstElementChild.setAttribute('disabled', '')
+                this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.firstElementChild.classList.remove('display-none')
+                this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.lastElementChild.classList.add('display-none')
 
-                this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.firstElementChild.classList.remove('display-none')
-                this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.lastElementChild.classList.add('display-none')
+                this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.firstElementChild.classList.remove('display-none')
+                this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.lastElementChild.classList.add('display-none')
 
                 this.classList.add('display-none')
                 this.nextElementSibling.classList.remove('display-none')
