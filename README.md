@@ -15,6 +15,7 @@
   - Activity log
 
 > Unfinished features:
+  - supplier and buyer
   - purchase
   - selling
   - expense
