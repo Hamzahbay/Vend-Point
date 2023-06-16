@@ -195,9 +195,13 @@ class ProductPage {
                             }).catch(err => console.log(err))
                         } else {
                             // need to fix & add log db
-                            console.log('diff')
+                            if( opname < 0 ) {
+                                return res.redirect('/product/warehouse/' + req.params.id + '?errorMessage=over')
+                            }
                             Product(auth.data.path).findOne({ where: { id: req.params.productId } }).then(product => {
-                                const qtyMap = new Map()
+                                
+
+                                /*const qtyMap = new Map()
 
                                 product.detail.forEach(({ date, qty }) => {
                                     qtyMap.set(date, (qtyMap.get(date) || 0) + qty)
@@ -241,7 +245,7 @@ class ProductPage {
                                             console.log(product1)
                                         }).catch(err => console.log(err))
                                     }).catch(err => console.log(err))
-                                }
+                                }*/
                             }).catch(err => console.log(err))
                         }
                     }).catch(err => console.log(err))
