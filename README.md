@@ -14,7 +14,7 @@
   - Simple and clear report
   - Activity log
 
-* Unfinished features:
+> Unfinished features:
   - purchase
   - selling
   - expense
@@ -22,6 +22,6 @@
   - report
   - some setting
 
-* Need to fix:
+> Need to fix:
   - moving goods between warehouses
   - adding log
