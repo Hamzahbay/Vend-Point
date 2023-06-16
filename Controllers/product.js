@@ -165,13 +165,9 @@ class ProductPage {
             warehouse: (req, res) => {
                 let body = req.body
                 authentication.db.findOne().then(auth => {
-                    Product(auth.data.path).findOne({ id: req.params.productId }).then(product => {
+                    Product(auth.data.path).findOne({where: { id: req.params.productId }}).then(product => {
                         let detail = product.detail
                         let opname = detail.reduce((acc, curr) => acc + curr.qty, 0) - body.qty
-
-                        if( opname < 0 ) {
-                            return res.redirect('/product/warehouseDetail/' + req.params.id + '?errorMessage=over')
-                        }
 
                         const deductStock = (stock, opname) => {
                             let remainingOpname = opname
@@ -181,7 +177,7 @@ class ProductPage {
                               let currentQty = stock[i].qty
                               let deductedQty = 0
                           
-                              if (remainingOpname > 0 && currentQty > 0) {
+                              if ( currentQty > 0 ) {
                                 deductedQty = Math.min(remainingOpname, currentQty)
                                 stock[i].qty -= deductedQty
                                 remainingOpname -= deductedQty
@@ -193,12 +189,14 @@ class ProductPage {
                             return { updatedStock: stock, deductedStock }
                           }
 
-                        if( product.warehouseId == req.params.id ) {
+                        if( product.warehouseId == body.warehouse ) {
                             return Product(auth.data.path).update({ detail: deductStock(detail, opname).updatedStock }, { where: { id: req.params.productId } }).then(product => {
-                                return res.redirect('/product/warehouseDetail/' + req.params.id)
+                                return res.redirect('/product/warehouse/' + req.params.id)
                             }).catch(err => console.log(err))
                         } else {
-                            Product(auth.data.path).findOne({ where: { id: req.params.productId, warehouseId: body.warehouse } }).then(product => {
+                            // need to fix & add log db
+                            console.log('diff')
+                            Product(auth.data.path).findOne({ where: { id: req.params.productId } }).then(product => {
                                 const qtyMap = new Map()
 
                                 product.detail.forEach(({ date, qty }) => {
@@ -212,8 +210,8 @@ class ProductPage {
                                 const sortedQty = [...qtyMap.entries()].sort((a, b) => new Date(a[0]) - new Date(b[0]))
 
                                 const result = sortedQty.map(([date, qty]) => {
-                                    const foundStock2 = stock2.find(item => item.date === date)
-                                    const foundStock1 = stock1.find(item => item.date === date)
+                                    const foundStock2 = product.detail.find(item => item.date === date)
+                                    const foundStock1 = deductStock(detail, opname).deductedStock.find(item => item.date === date)
                                     const from = foundStock2?.from || foundStock1?.from || 'transferred'
                                     return {
                                         price: foundStock2?.price || foundStock1?.price || '0',
@@ -232,13 +230,15 @@ class ProductPage {
                                 if( product ) {
                                     return Product(auth.data.path).update({ detail: deductStock(detail, opname).updatedStock }, { where: { id: req.params.productId } }).then(product1 => {
                                         Product(auth.data.path).update({ detail: sortedResult }, { where: { id: req.params.productId, warehouseId: body.warehouse } }).then(product2 => {
-                                            res.redirect('/product/warehouseDetail/' + req.params.id)
+                                            res.redirect('/product/warehouse/' + req.params.id)
+                                            console.log(product2)
                                         }).catch(err => console.log(err))
                                     }).catch(err => console.log(err))
                                 } else {
                                     return Product(auth.data.path).findOne({ where: { id: req.params.productId } }).then(product => {
                                         Product(auth.data.path).create({ name: product.name, warehouseId: product.warehouseId, unit: product.unit, detail: deductStock(detail, opname).deductedStock }).then(product1 => {
-                                            res.redirect('/product/warehouseDetail/' + req.params.id)
+                                            res.redirect('/product/warehouse/' + req.params.id)
+                                            console.log(product1)
                                         }).catch(err => console.log(err))
                                     }).catch(err => console.log(err))
                                 }

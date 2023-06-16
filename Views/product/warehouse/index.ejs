@@ -5,13 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../style/inventoryInitial.css">
-    <title>Edit Barang</title>
+    <title>Gudang</title>
 </head>
 <body>
 
     <div class="container">
         <div class="title">
-            <h2><center>Kelola Barang</center></h2>
+            <h2><center>Gudang <%= warehouse.filter(x => x.id == params.id)[0].name.charAt(0).toUpperCase() + warehouse.filter(x => x.id == params.id)[0].name.slice(1) %></center></h2>
         </div>
         <div class="search-bar">
             <input type="text" id="search" placeholder="Cari barang">

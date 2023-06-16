@@ -95,8 +95,8 @@ class Setting {
                 
                 await body.name.forEach((name, index) => {
                     let existingIndex = result.findIndex(item => item.name === name && item.warehouseId === body.warehouse[index])
-                    let qty = parseInt(body.qty[index])
-                    let price = parseInt(body.price[index].replace(',', ''))
+                    let qty = parseInt(body.qty[index].replace(/,/g, ''))
+                    let price = parseInt(body.price[index].replace(/,/g, ''))
                     
                     if (existingIndex !== -1) {
                       result[existingIndex].qty += qty
@@ -110,7 +110,7 @@ class Setting {
                       })
                     }
                 })
-                  
+                
                 authentication.db.findOne().then(async auth => {
                     await Product(auth.data.path).bulkCreate(result)
                     Electron.BrowserWindow.getFocusedWindow().closable = true
