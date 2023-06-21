@@ -73,7 +73,7 @@
             </table>
         </div>
     </div>
-    <%- query.errorMessage != undefined ? `<div class="error-message">Nama barang telah digunakan</div>` : '' %>
+    <%- query.errorMessage != undefined ? `<div class="error-message">Jumlah ${query.errorMessage} tidak cukup</div>` : '' %>
 
 </body>
 <script src="../../script/socket.io.js"></script>

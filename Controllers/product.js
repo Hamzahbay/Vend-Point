@@ -177,15 +177,16 @@ class ProductPage {
                               let currentQty = stock[i].qty
                               let deductedQty = 0
                           
-                              if ( currentQty > 0 ) {
+                              if ( currentQty >= 0 ) {
                                 deductedQty = Math.min(remainingOpname, currentQty)
                                 stock[i].qty -= deductedQty
                                 remainingOpname -= deductedQty
                               }
-                          
-                              deductedStock.push({ price: stock[i].price, qty: deductedQty })
+
+                              
+                              deductedStock.push({ price: stock[i].price, qty: deductedQty, from: stock[i].from, date: stock[i].date })
                             }
-                          
+                            
                             return { updatedStock: stock, deductedStock }
                           }
 
@@ -194,59 +195,13 @@ class ProductPage {
                                 return res.redirect('/product/warehouse/' + req.params.id)
                             }).catch(err => console.log(err))
                         } else {
-                            // need to fix & add log db
-                            if( opname < 0 ) {
-                                return res.redirect('/product/warehouse/' + req.params.id + '?errorMessage=over')
+                             if( opname < 0 ) {
+                                return res.redirect('/product/warehouse/' + req.params.id + '?errorMessage=' + product.name)
                             }
-                            Product(auth.data.path).findOne({ where: { id: req.params.productId } }).then(product => {
+
+                            const betweenWarehouses = (updatedStock, opname) => {
                                 
-
-                                /*const qtyMap = new Map()
-
-                                product.detail.forEach(({ date, qty }) => {
-                                    qtyMap.set(date, (qtyMap.get(date) || 0) + qty)
-                                })
-
-                                deductStock(detail, opname).deductedStock.forEach(({ date, qty }) => {
-                                    qtyMap.set(date, (qtyMap.get(date) || 0) + qty)
-                                })
-
-                                const sortedQty = [...qtyMap.entries()].sort((a, b) => new Date(a[0]) - new Date(b[0]))
-
-                                const result = sortedQty.map(([date, qty]) => {
-                                    const foundStock2 = product.detail.find(item => item.date === date)
-                                    const foundStock1 = deductStock(detail, opname).deductedStock.find(item => item.date === date)
-                                    const from = foundStock2?.from || foundStock1?.from || 'transferred'
-                                    return {
-                                        price: foundStock2?.price || foundStock1?.price || '0',
-                                        qty,
-                                        date,
-                                        from
-                                    }
-                                })
-
-                                const sortedResult = result.sort((a, b) => {
-                                    const dateA = new Date(a.date)
-                                    const dateB = new Date(b.date)
-                                    return dateA - dateB
-                                })
-                                
-                                if( product ) {
-                                    return Product(auth.data.path).update({ detail: deductStock(detail, opname).updatedStock }, { where: { id: req.params.productId } }).then(product1 => {
-                                        Product(auth.data.path).update({ detail: sortedResult }, { where: { id: req.params.productId, warehouseId: body.warehouse } }).then(product2 => {
-                                            res.redirect('/product/warehouse/' + req.params.id)
-                                            console.log(product2)
-                                        }).catch(err => console.log(err))
-                                    }).catch(err => console.log(err))
-                                } else {
-                                    return Product(auth.data.path).findOne({ where: { id: req.params.productId } }).then(product => {
-                                        Product(auth.data.path).create({ name: product.name, warehouseId: product.warehouseId, unit: product.unit, detail: deductStock(detail, opname).deductedStock }).then(product1 => {
-                                            res.redirect('/product/warehouse/' + req.params.id)
-                                            console.log(product1)
-                                        }).catch(err => console.log(err))
-                                    }).catch(err => console.log(err))
-                                }*/
-                            }).catch(err => console.log(err))
+                            }
                         }
                     }).catch(err => console.log(err))
                 }).catch(err => console.log(err))
@@ -256,3 +211,8 @@ class ProductPage {
 }
 
 module.exports = ProductPage
+
+
+
+let detail1 = [{price: 25000, qty: 20, from: 'initial', date: '01/11/2021'}, {price: 20000, qty: 10, from: 'purchase', date: '21/01/2022'}]
+let detail2 = [{price: 25000, qty: 20, from: 'initial', date: '01/11/2021'}]
