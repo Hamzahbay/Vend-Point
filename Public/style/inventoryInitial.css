@@ -61,6 +61,9 @@ body {
     width: 20%;
 }
 
+.container .content table tbody tr:nth-child(odd) {
+    background-color: rgb(229, 226, 226);
+}
 .container .content table tbody tr td {
     border-bottom: solid .5px gray;
 }

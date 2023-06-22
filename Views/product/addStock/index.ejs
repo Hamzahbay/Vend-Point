@@ -10,7 +10,7 @@
 <body>
 
     <div class="container">
-        <form action="/product/newStock" method="POST">
+        <form action="/product/newStock" method="POST" id="form">
             <div class="title">
                 <h2><center>Tambah Barang</center></h2>
             </div>
@@ -28,9 +28,9 @@
                     <tbody>
                         <tr>
                             <td class="number">1</td>
-                            <td><input required type="text" name="name" id="name" class="input-data"></td>
+                            <td><input required type="text" name="name" id="name" class="input-data name"></td>
                             <td>
-                                <select name="warehouse" id="warehouse">
+                                <select name="warehouse" id="warehouse" class="warehouse">
                                     <% warehouse.forEach(x => { %>
                                         <option value="<%= x.id %>"><%= x.name %></option>
                                     <% }) %>
@@ -72,8 +72,92 @@
         })
     })
 
+    document.getElementById('form').addEventListener('submit', function(e) {
+        let duplicate = false
+
+        const tableRows = document.querySelectorAll('tbody tr')
+        const totalRows = tableRows.length
+        let errorMessage = document.createElement('div')
+        errorMessage.classList.add('error-message')
+        errorMessage.textContent = 'Terdapat duplikasi'
+
+        for (let i = 0; i < totalRows - 1; i++) {
+            const currentItem = tableRows[i]
+            const currentItemName = currentItem.querySelector('.name').value
+            const currentItemWarehouse = currentItem.querySelector('.warehouse').value
+
+            for (let j = i + 1; j < totalRows; j++) {
+                const comparedItem = tableRows[j]
+                const comparedItemName = comparedItem.querySelector('.name').value
+                const comparedItemWarehouse = comparedItem.querySelector('.warehouse').value
+
+                if ( currentItemName === comparedItemName && currentItemName !== "" && currentItemWarehouse === comparedItemWarehouse && currentItemWarehouse !== "" ) {
+                    duplicate = true
+                    errorMessage.textContent = `Terdapat duplikasi pada baris ke ${i + 1} dan baris ke ${j + 1}`
+                    break
+                }
+            }
+
+            if (duplicate) {
+                document.body.appendChild(errorMessage)
+                if( document.querySelector('.error-message') != undefined ) {
+                    document.querySelector('.error-message').innerText = document.querySelector('.error-message').innerText.split('-').reduce((acc, curr) => acc + ' ' + curr)
+                    
+                    setTimeout(() => document.querySelector('.error-message').style.bottom = '20px', 500)
+                    setTimeout(() => {
+                        document.querySelector('.error-message').style.bottom = '-50px'
+                        setTimeout(() => document.querySelector('.error-message').remove(), 1000)
+                    }, 3200)
+                }
+                break
+            }
+        }
+
+        if( duplicate ) return e.preventDefault()
+    })
+
     const addButton = document.getElementById('addButton')
-    addButton.addEventListener('click', function() {
+    addButton.addEventListener('click', function(e) {
+        let duplicate = false
+
+        const tableRows = document.querySelectorAll('tbody tr')
+        const totalRows = tableRows.length
+        let errorMessage = document.createElement('div')
+        errorMessage.classList.add('error-message')
+
+        for (let i = 0; i < totalRows - 1; i++) {
+            const currentItem = tableRows[i]
+            const currentItemName = currentItem.querySelector('.name').value
+            const currentItemWarehouse = currentItem.querySelector('.warehouse').value
+
+            for (let j = i + 1; j < totalRows; j++) {
+                const comparedItem = tableRows[j]
+                const comparedItemName = comparedItem.querySelector('.name').value
+                const comparedItemWarehouse = comparedItem.querySelector('.warehouse').value
+
+                if ( currentItemName === comparedItemName && currentItemName !== "" && currentItemWarehouse === comparedItemWarehouse && currentItemWarehouse !== "" ) {
+                    duplicate = true
+                    errorMessage.textContent = `Terdapat duplikasi pada baris ke ${i + 1} dan baris ke ${j + 1}`
+                    break
+                }
+            }
+
+            if (duplicate) {
+                document.body.appendChild(errorMessage)
+                if( document.querySelector('.error-message') != undefined ) {
+                    document.querySelector('.error-message').innerText = document.querySelector('.error-message').innerText.split('-').reduce((acc, curr) => acc + ' ' + curr)
+                    
+                    setTimeout(() => document.querySelector('.error-message').style.bottom = '20px', 100)
+                    setTimeout(() => {
+                        document.querySelector('.error-message').style.bottom = '-50px'
+                        setTimeout(() => document.querySelector('.error-message').remove(), 1000)
+                    }, 3200)
+                }
+                break
+            }
+        }
+
+        if( duplicate ) return e.preventDefault()
         const tbody = document.querySelector('tbody')
         const lastRow = tbody.lastElementChild
         const newRow = lastRow.cloneNode(true)

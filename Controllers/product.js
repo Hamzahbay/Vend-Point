@@ -169,7 +169,8 @@ class ProductPage {
                         let detail = product.detail
                         let opname = detail.reduce((acc, curr) => acc + curr.qty, 0) - body.qty
 
-                        const deductStock = (stock, opname) => {
+                        const deductStock = (targetStock, opname) => {
+                            let stock = targetStock.map(val => ({ price: val.price, qty: val.qty, from: val.from, date: val.date }))
                             let remainingOpname = opname
                             let deductedStock = []
                           
@@ -191,8 +192,8 @@ class ProductPage {
                           }
 
                         if( product.warehouseId == body.warehouse ) {
-                            return Product(auth.data.path).update({ detail: deductStock(detail, opname).updatedStock }, { where: { id: req.params.productId } }).then(product => {
-                                return res.redirect('/product/warehouse/' + req.params.id)
+                            return Product(auth.data.path).update({ detail: deductStock(detail, opname).updatedStock }, { where: { id: req.params.productId } }).then(product1 => {
+                                return res.redirect('/product/warehouse/' + req.params.id + '?successMessage=' + product.name)
                             }).catch(err => console.log(err))
                         } else {
                              if( opname < 0 ) {
@@ -225,17 +226,18 @@ class ProductPage {
                             }
 
                             Product(auth.data.path).findOne({ where: { warehouseId: body.warehouse, name: body.name } }).then(productDiff => {
-                                let detailDiff = productDiff.detail
+                                let detailDiff = productDiff?.detail || []
+                                console.log(detailDiff)
                                 if( productDiff ) {
-                                    Product(auth.data.path).update({ detail: deductStock(detail, body.qty).updatedStock }, { where: { id: req.params.productId } }).then(product => {
-                                        Product(auth.data.path).update({ detail: transferStock(deductStock(detail, body.qty).deductedStock, detailDiff) }, { where: { warehouseId: body.warehouse, name: body.name } }).then(product => {
-                                            return res.redirect('/product/warehouse/' + req.params.id + '?successMessage=' + productDiff.name)
+                                    Product(auth.data.path).update({ detail: deductStock(detail, body.qty).updatedStock }, { where: { id: req.params.productId } }).then(product1 => {
+                                        Product(auth.data.path).update({ detail: transferStock(deductStock(detail, body.qty).deductedStock, detailDiff) }, { where: { warehouseId: body.warehouse, name: body.name } }).then(product2 => {
+                                            return res.redirect('/product/warehouse/' + req.params.id + '?successMessage=' + product.name)
                                         }).catch(err => console.log(err))
                                     }).catch(err => console.log(err))
                                 } else {
-                                    Product(auth.data.path).update({ detail: deductStock(detail, body.qty).updatedStock }, { where: { id: req.params.productId } }).then(product => {
-                                        Product(auth.data.path).create({ name: body.name, warehouseId: body.warehouseId, detail: deductStock(detail, body.qty).deductedStock }).then(product => {
-                                            return res.redirect('/product/warehouse/' + req.params.id + '?successMessage=' + productDiff.name)
+                                    Product(auth.data.path).update({ detail: deductStock(detail, body.qty).updatedStock }, { where: { id: req.params.productId } }).then(product1 => {
+                                        Product(auth.data.path).create({ name: body.name, warehouseId: body.warehouse, unit: body.unit, detail: transferStock(deductStock(detail, body.qty).deductedStock, detailDiff).reverse() }).then(product2 => {
+                                            return res.redirect('/product/warehouse/' + req.params.id + '?successMessage=' + product.name)
                                         }).catch(err => console.log(err))
                                     }).catch(err => console.log(err))
                                 }

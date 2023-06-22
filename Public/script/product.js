@@ -63,3 +63,21 @@ for( let i = 0; i < document.querySelectorAll('.container .content .box .box-lis
         window.location.href = this.dataset.href
     })
 }
+
+// right click action for warehouse
+document.querySelectorAll('.warehouse').forEach(warehouse => {
+    warehouse.addEventListener('contextmenu', function(e) {
+        document.querySelector('.warehouseContexMenu').setAttribute('data-id', this.dataset.id)
+        document.querySelector('.warehouseContexMenu').classList.remove('display-none')
+        document.querySelector('.warehouseContexMenu').style.left = e.clientX + 'px'
+        document.querySelector('.warehouseContexMenu').style.top = e.clientY + 'px'
+    })
+})
+document.querySelectorAll('.warehouseContexMenu .item').forEach(item => {
+    item.addEventListener('click', function(e) {
+        location.href = this.dataset.link + this.parentElement.dataset.id
+    })
+})
+document.body.addEventListener('click', function(e) {
+    document.querySelector('.warehouseContexMenu').classList.add('display-none')
+})

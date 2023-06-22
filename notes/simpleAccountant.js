@@ -1,84 +1,84 @@
-let akunRil = {
-    hartaAktivaAsset: [
-        {
-            1: "Harta Lancar",
-            jenis: [{ 1: "Kas" }, { 2: "Piutang" }, { 3: "Persediaan" }]
-        },
-        {
-            2: "Harta Tetap"
-        },
-        {
-            3: "Investasi"
-        }
-    ],
-    hutangKewajiban: [
-        {
-            1: "Hutang Jangka Pendek",
-            jenis: [{ 1: "Hutang Usaha" }, { 2: "Hutang Beban" }]
-        },
-        {
-            2: "Hutang Jangka Panjang",
-            jenis: [{ 1: "Hutang Bank" }, { 2: "Hutang Lainya" }]
-        }
-    ],
-    mdoal: [
-        {
-            1: "Modal Pemilik",
-        },
-        {
-            2: "Modal Saham"
-        }
-    ]
-}
+// let akunRil = {
+//     hartaAktivaAsset: [
+//         {
+//             1: "Harta Lancar",
+//             jenis: [{ 1: "Kas" }, { 2: "Piutang" }, { 3: "Persediaan" }]
+//         },
+//         {
+//             2: "Harta Tetap"
+//         },
+//         {
+//             3: "Investasi"
+//         }
+//     ],
+//     hutangKewajiban: [
+//         {
+//             1: "Hutang Jangka Pendek",
+//             jenis: [{ 1: "Hutang Usaha" }, { 2: "Hutang Beban" }]
+//         },
+//         {
+//             2: "Hutang Jangka Panjang",
+//             jenis: [{ 1: "Hutang Bank" }, { 2: "Hutang Lainya" }]
+//         }
+//     ],
+//     mdoal: [
+//         {
+//             1: "Modal Pemilik",
+//         },
+//         {
+//             2: "Modal Saham"
+//         }
+//     ]
+// }
 
-let akunNominal = {
-    pendapatan: [
-        {
-            1: "Pendapatan Usaha"
-        },
-        {
-            2: "Pendapatan Lainya"
-        }
-    ],
-    bebanBiaya: [
-        {
-            1: "Beban Usaha"
-        },
-        {
-            2: "Beban Lainya"
-        }
-    ]
-}
+// let akunNominal = {
+//     pendapatan: [
+//         {
+//             1: "Pendapatan Usaha"
+//         },
+//         {
+//             2: "Pendapatan Lainya"
+//         }
+//     ],
+//     bebanBiaya: [
+//         {
+//             1: "Beban Usaha"
+//         },
+//         {
+//             2: "Beban Lainya"
+//         }
+//     ]
+// }
 
-// let akun = [akunRil, akunNominal]
+// // let akun = [akunRil, akunNominal]
 
-const akun = {
-    "Akun Ril": {
-        "Harta / Asset / Aktiva": {
-            "Harta Lancar": ["Kas", "Piutang", "Persediaan"],
-            "Harta Tetap": ["-"],
-            "Investasi": ["-"]
-        },
-        "Hutang / Kewajiban": {
-            "Hutang Jangka Pendek": ["Hutang Usaha", "Hutang Beban"],
-            "Hutang Jangka Panjang": ["Hutang Bank", "Hutang BebaLainya"]
-        },
-        "Modal": {
-            "Modal Pemilik": ["-"],
-            "Modal Saham": ["-"]
-        }
-    },
-    "Akun Nominal": {
-        "Pendapatan": {
-            "Pendapatan Usaha": ["-"],
-            "Pendapatan Lainya": ["-"]
-        },
-        "Beban / Biaya": {
-            "Beban / Biaya Usaha": ["-"],
-            "Beban / Biaya Lainya": ["-"]
-        }
-    }
-}
+// const akun = {
+//     "Akun Ril": {
+//         "Harta / Asset / Aktiva": {
+//             "Harta Lancar": ["Kas", "Piutang", "Persediaan"],
+//             "Harta Tetap": ["-"],
+//             "Investasi": ["-"]
+//         },
+//         "Hutang / Kewajiban": {
+//             "Hutang Jangka Pendek": ["Hutang Usaha", "Hutang Beban"],
+//             "Hutang Jangka Panjang": ["Hutang Bank", "Hutang BebaLainya"]
+//         },
+//         "Modal": {
+//             "Modal Pemilik": ["-"],
+//             "Modal Saham": ["-"]
+//         }
+//     },
+//     "Akun Nominal": {
+//         "Pendapatan": {
+//             "Pendapatan Usaha": ["-"],
+//             "Pendapatan Lainya": ["-"]
+//         },
+//         "Beban / Biaya": {
+//             "Beban / Biaya Usaha": ["-"],
+//             "Beban / Biaya Lainya": ["-"]
+//         }
+//     }
+// }
 
 
 
@@ -99,7 +99,7 @@ const akun = {
 
 
 let productDetail1 = [{price: 25000, qty: 20, from: 'initial', date: '01/11/2021'}, {price: 20000, qty: 10, from: 'purchase', date: '21/01/2022'}]
-let productDetail2 = [{price: 25000, qty: 13, from: 'initial', date: '01/11/2021'}, {price: 23000, qty: 5, from: 'purchase', date: '05/12/2021'}]
+let productDetail2 = []
 
 let firstStock1 = [productDetail1.reduce((acc, curr) => acc + curr.qty, 0), 3]
 let firstStock2 = [productDetail2.reduce((acc, curr) => acc + curr.qty, 0), 2]
@@ -107,7 +107,7 @@ let opname = firstStock1[0] - firstStock1[1]
 
 
 const deductStock = (targetStock, opname) => {
-    let stock = targetStock.map(val => val)
+    let stock = targetStock.map(val => ({ price: val.price, qty: val.qty, from: val.from, date: val.date }))
     let remainingOpname = opname
     let deductedStock = []
 
@@ -157,9 +157,10 @@ const transferStock = (deductedStock, targetStock) => {
 }
 
 
-// let result = deductStock(productDetail1, opname)
+let result = deductStock(productDetail1, opname)
 let transferredStock = transferStock(deductStock(productDetail1, opname).deductedStock, productDetail2)
-console.log(transferredStock)
+console.log(transferredStock.reverse())
+console.log(productDetail1)
 
 // const betweenWarehouses = (updatedStock, transferredStock, targetStock, stock) => {
 //     let remainingStock = transferredStock
