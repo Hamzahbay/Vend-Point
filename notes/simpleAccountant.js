@@ -157,8 +157,9 @@ const transferStock = (deductedStock, targetStock) => {
 }
 
 
-let result = deductStock(productDetail1, opname)
-let transferredStock = transferStock(result.deductedStock, productDetail2)
+// let result = deductStock(productDetail1, opname)
+let transferredStock = transferStock(deductStock(productDetail1, opname).deductedStock, productDetail2)
+console.log(transferredStock)
 
 // const betweenWarehouses = (updatedStock, transferredStock, targetStock, stock) => {
 //     let remainingStock = transferredStock

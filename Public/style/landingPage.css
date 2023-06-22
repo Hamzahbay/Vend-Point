@@ -405,7 +405,7 @@ button {
 
 
 .error-message {
-    background-color: #146C94;
+    background-color: red;
     position: fixed;
     bottom: -50px;
     right: 20px;

@@ -199,9 +199,47 @@ class ProductPage {
                                 return res.redirect('/product/warehouse/' + req.params.id + '?errorMessage=' + product.name)
                             }
 
-                            const betweenWarehouses = (updatedStock, opname) => {
+                            const transferStock = (deductedStock, targetStock) => {
+                                let combinedStock = deductedStock.map((val) => {
+                                    return { price: val.price, qty: 0, from: val.from, date: val.date }
+                                })
                                 
+                                combinedStock = combinedStock.concat(targetStock)
+                                
+                                combinedStock = combinedStock.reverse().filter((item, i) => {
+                                    return (i == combinedStock.findIndex((val) => {
+                                        return val.price == item.price && val.date == item.date
+                                    }))
+                                })
+                                
+                                let transferredStock = combinedStock.map((val, i) => {
+                                    deductedStock.forEach(x => {
+                                        if( x.price == val.price && x.date == val.date ) val.qty += x.qty
+                                    })
+                                    
+                                    return val
+                                })
+                            
+                                transferredStock.sort((a, b) => new Date(a.date) - new Date(b.date))
+                                return transferredStock
                             }
+
+                            Product(auth.data.path).findOne({ where: { warehouseId: body.warehouse, name: body.name } }).then(productDiff => {
+                                let detailDiff = productDiff.detail
+                                if( productDiff ) {
+                                    Product(auth.data.path).update({ detail: deductStock(detail, body.qty).updatedStock }, { where: { id: req.params.productId } }).then(product => {
+                                        Product(auth.data.path).update({ detail: transferStock(deductStock(detail, body.qty).deductedStock, detailDiff) }, { where: { warehouseId: body.warehouse, name: body.name } }).then(product => {
+                                            return res.redirect('/product/warehouse/' + req.params.id + '?successMessage=' + productDiff.name)
+                                        }).catch(err => console.log(err))
+                                    }).catch(err => console.log(err))
+                                } else {
+                                    Product(auth.data.path).update({ detail: deductStock(detail, body.qty).updatedStock }, { where: { id: req.params.productId } }).then(product => {
+                                        Product(auth.data.path).create({ name: body.name, warehouseId: body.warehouseId, detail: deductStock(detail, body.qty).deductedStock }).then(product => {
+                                            return res.redirect('/product/warehouse/' + req.params.id + '?successMessage=' + productDiff.name)
+                                        }).catch(err => console.log(err))
+                                    }).catch(err => console.log(err))
+                                }
+                            }).catch(err => console.log(err))
                         }
                     }).catch(err => console.log(err))
                 }).catch(err => console.log(err))
@@ -211,8 +249,3 @@ class ProductPage {
 }
 
 module.exports = ProductPage
-
-
-
-let detail1 = [{price: 25000, qty: 20, from: 'initial', date: '01/11/2021'}, {price: 20000, qty: 10, from: 'purchase', date: '21/01/2022'}]
-let detail2 = [{price: 25000, qty: 20, from: 'initial', date: '01/11/2021'}]

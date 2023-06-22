@@ -74,6 +74,7 @@
         </div>
     </div>
     <%- query.errorMessage != undefined ? `<div class="error-message">Jumlah ${query.errorMessage} tidak cukup</div>` : '' %>
+    <%- query.successMessage != undefined ? `<div class="error-message success-message">Jumlah ${query.successMessage} diperbarui</div>` : '' %>
 
 </body>
 <script src="../../script/socket.io.js"></script>
