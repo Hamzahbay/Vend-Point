@@ -47,7 +47,8 @@
                                     <input required type="text" name="unit" id="unit" class="input-data display-none" value="<%= y.unit %>">
                                 </td>
                                 <td>
-                                    <select name="warehouse" id="warehouse" disabled>
+                                    <input type="text" name="warehouse" value="<%= y.warehouseId %>" class="display-none">
+                                    <select name="" id="warehouse" disabled>
                                         <% warehouse.forEach(x => { %>
                                             <% if( x.id == y.warehouseId ) { %>
                                                 <option value="<%= x.id %>" selected><%= x.name %></option>
@@ -74,6 +75,7 @@
         </div>
     </div>
     <%- query.errorMessage != undefined ? `<div class="error-message">Nama barang telah digunakan</div>` : '' %>
+    <%- query.successMessage != undefined ? `<div class="error-message success-message">${query.successMessage} berhasil diperbarui</div>` : '' %>
 
 </body>
 <script src="../../script/socket.io.js"></script>

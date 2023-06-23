@@ -175,10 +175,13 @@ class ProductPage {
             updateStock: (req, res) => {
                 let body = req.body
                 authentication.db.findOne().then(auth => {
-                    Product(auth.data.path).findOne({ id: req.params.id }).then(products => {
+                    Product(auth.data.path).findOne({ where: { name: body.name, warehouseId: body.warehouse } }).then(products => {
+                        if( products && products.id != req.params.id ) {
+                            return res.redirect('/product/updateStock?errorMessage=duplicated')
+                        }
                         Product(auth.data.path).update({ name: body.name, unit: body.unit }, { where: { id: req.params.id } }).then(async product1 => {
                             await Log(auth.data.path).create({ targetId: req.params.id, action: 'update', type: 'product' })
-                            return res.redirect('/product/updateStock')
+                            return res.redirect('/product/updateStock?successMessage=' + body.name)
                         }).catch(err => console.log(err))
                     }).catch(err => console.log(err))
                 }).catch(err => console.log(err))

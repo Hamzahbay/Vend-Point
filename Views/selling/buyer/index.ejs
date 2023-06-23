@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style/inventoryInitial.css">
+    <title>Pembeli</title>
+</head>
+<body>
+
+    <style>
+        .container .content table tr th {
+            text-align: left;
+        }
+    </style>
+    <div class="container" style="margin-bottom: 5rem;">
+        <div class="title">
+            <h2><center>Pembeli</center></h2>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="Cari pembeli">
+        </div>
+        <div class="content">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th style="width: 35%;">Nama</th>
+                        <th style="width: 20%;">Tipe</th>
+                        <th style="width: 45%;">Keterangan</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% buyer.forEach((y, i) => { %>
+                        <tr>
+                            <form action="/selling/buyer/update/<%= y.id %>" method="POST">
+                                <td class="number"><p><%= i+1 %></p></td>
+                                <td class="product-name">
+                                    <p><%= y.name %></p>
+                                    <input required type="text" name="name" id="name" class="input-data display-none" value="<%= y.name %>">
+                                </td>
+                                <td>
+                                    <p><%= y.type %></p>
+                                    <input required type="text" name="type" id="type" class="input-data display-none" value="<%= y.type %>">
+                                </td>
+                                <td>
+                                    <p><%= y.note %></p>
+                                    <input required type="text" name="note" id="note" class="input-data display-none" value="<%= y.note %>">
+                                </td>
+                                <td>
+                                    <img src="../../img/plus.png" alt="" class="cancel display-none">
+                                    <img src="../../img/pencil.png" alt="" class="edit" style="rotate: -45deg;">
+                                    <img src="../../img/check.png" alt="" class="confirm display-none" style="rotate: -45deg;">
+                                    <%- query?.invoice == 'on' ? '<img src="../../img/plus.png" alt="" class="choose" style="rotate: -45deg;">' : '' %>
+                                </td>
+                            </form>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="newBuyer">Tambah Pembeli</div>
+    <%- query.errorMessage != undefined ? `<div class="error-message">Nama pembeli telah digunakan</div>` : '' %>
+    <%- query.successMessage != undefined ? `<div class="error-message success-message">${query.successMessage} berhasil diperbarui</div>` : '' %>
+
+</body>
+<script>
+    window.addEventListener('focus', function(e) {
+        location.reload()
+    })
+    document.querySelector('.newBuyer').addEventListener('click', function(e) {
+        location.href = '/selling/buyer/new'
+    })
+    document.getElementById('search').addEventListener('keyup', function(e) {
+        document.querySelectorAll('.product-name').forEach(x => {
+            if( x.firstElementChild.innerText.includes(e.target.value) == true ) x.parentElement.classList.remove('display-none')
+            if( x.firstElementChild.innerText.includes(e.target.value) == false ) x.parentElement.classList.add('display-none')
+        })
+    })
+
+    document.querySelectorAll('.edit').forEach(x => {
+        x.addEventListener('click', function(e) {
+            this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.firstElementChild.classList.add('display-none')
+            this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.lastElementChild.classList.remove('display-none')
+
+            this.parentElement.previousElementSibling.previousElementSibling.firstElementChild.classList.add('display-none')
+            this.parentElement.previousElementSibling.previousElementSibling.lastElementChild.classList.remove('display-none')
+            
+            this.parentElement.previousElementSibling.firstElementChild.classList.add('display-none')
+            this.parentElement.previousElementSibling.lastElementChild.classList.remove('display-none')
+
+            this.classList.add('display-none')
+            this.previousElementSibling.classList.remove('display-none')
+            this.nextElementSibling.classList.remove('display-none')
+            this.previousElementSibling.addEventListener('click', function(e) {
+                this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.firstElementChild.classList.remove('display-none')
+                this.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.lastElementChild.classList.add('display-none')
+
+                this.parentElement.previousElementSibling.previousElementSibling.firstElementChild.classList.remove('display-none')
+                this.parentElement.previousElementSibling.previousElementSibling.lastElementChild.classList.add('display-none')
+
+                this.parentElement.previousElementSibling.firstElementChild.classList.remove('display-none')
+                this.parentElement.previousElementSibling.lastElementChild.classList.add('display-none')
+
+                this.classList.add('display-none')
+                this.nextElementSibling.classList.remove('display-none')
+                this.nextElementSibling.nextElementSibling.classList.add('display-none')
+            })
+            this.nextElementSibling.addEventListener('click', function(e) {
+                this.parentElement.parentElement.querySelector('form').submit()
+            })
+
+        })
+    })
+
+    if( document.querySelector('.error-message') != undefined ) {
+        document.querySelector('.error-message').innerText = document.querySelector('.error-message').innerText.split('-').reduce((acc, curr) => acc + ' ' + curr)
+        
+        setTimeout(() => document.querySelector('.error-message').style.bottom = '20px', 500)
+        setTimeout(() => {
+            document.querySelector('.error-message').style.bottom = '-50px'
+            setTimeout(() => document.querySelector('.error-message').remove(), 1000)
+        }, 3200)
+    }
+
+</script>
+</html>

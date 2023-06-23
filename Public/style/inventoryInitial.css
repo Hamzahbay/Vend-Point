@@ -162,6 +162,23 @@ body {
     background-color: #146C94;
 }
 
+.newBuyer {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    background-color: #19A7CE;
+    color: #ffff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: linear 100ms;
+}
+.newBuyer:hover {
+    background-color: #146C94;
+}
+
 .error-message {
     background-color: red;
     position: fixed;
