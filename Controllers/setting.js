@@ -25,6 +25,7 @@ const Inclusion = require('../Models/Tables/Inclusion')
 const ExpensesInvoice = require('../Models/Tables/ExpensesInvoice')
 const InclusionInvoice = require('../Models/Tables/InclusionInvoice')
 const Warehouse = require('../Models/Tables/Warehouse')
+const Log = require('../Models/Tables/Log')
 
 // Authentication
 const authentication = require('../Config/authentication')
@@ -74,7 +75,9 @@ class Setting {
                 
                 for( const m in result ) {
                     authentication.db.findOne().then(async auth => {
-                        await Account(auth.data.path).create({ name: m, detail: { nominal: result[m] } })
+                        await Account(auth.data.path).create({ name: m, detail: { nominal: result[m] } }).then(async acc => {
+                            await Log(auth.data.path).create({ targetId: acc.id, action: 'create', type: 'account' })
+                        }).catch(err => console.log(err))
                     }).catch(err => console.log(err))
                 }
 
@@ -112,9 +115,14 @@ class Setting {
                 })
                 
                 authentication.db.findOne().then(async auth => {
-                    await Product(auth.data.path).bulkCreate(result)
-                    Electron.BrowserWindow.getFocusedWindow().closable = true
-                    Electron.BrowserWindow.getFocusedWindow().close()
+                    await Product(auth.data.path).bulkCreate(result).then(async products => {
+                        products.forEach(async product => {
+                            await Log(auth.data.path).create({ targetId: product.id, action: 'create', type: 'initial-product' })
+                        })
+                        
+                        Electron.BrowserWindow.getFocusedWindow().closable = true
+                        Electron.BrowserWindow.getFocusedWindow().close()
+                    }).catch(err => console.log(err))
                 }).catch(err => console.log(err))
             }
         }

@@ -20,6 +20,7 @@ const Inclusion = require('../Models/Tables/Inclusion')
 const ExpensesInvoice = require('../Models/Tables/ExpensesInvoice')
 const InclusionInvoice = require('../Models/Tables/InclusionInvoice')
 const Warehouse = require('../Models/Tables/Warehouse')
+const Log = require('../Models/Tables/Log')
 
 // Authentication
 const authentication = require('../Config/authentication')
@@ -87,6 +88,20 @@ class ProductPage {
             },
             editWarehouse: (req, res) => {
                 res.render('product/warehouse/edit/index', { query: req.query })
+            },
+            warehouseUpdate: (req, res) => {
+                authentication.db.findOne().then(auth => {
+                    Warehouse(auth.data.path).findOne({ where: { id: req.params.id } }).then(warehouse => {
+                        Electron.app.whenReady().then(() => browserWindow.warehouseAfter(null, 'http://localhost:1400/product/warehouseDetail/modify/' + req.params.id, true)).then(() => console.log('Warehouse form window showed!')).catch(err => console.log(err))
+                    }).catch(err => console.log(err))
+                }).catch(err => console.log(err))
+            },
+            warehouseModify: (req, res) => {
+                authentication.db.findOne().then(auth => {
+                    Warehouse(auth.data.path).findOne({ where: { id: req.params.id } }).then(warehouse => {
+                        res.render('product/warehouse/modify/index', { query: req.query, params: req.params, warehouse })
+                    })
+                })
             }
         }
         this.post = {
@@ -120,7 +135,11 @@ class ProductPage {
                         })
                           
                         authentication.db.findOne().then(async auth => {
-                            await Product(auth.data.path).bulkCreate(result)
+                            await Product(auth.data.path).bulkCreate(result).then(products => {
+                                products.forEach(async product => {
+                                    await Log(auth.data.path).create({ targetId: product.id, action: 'create', type: 'product' })
+                                })
+                            }).catch(err => console.log(err))
                             Electron.BrowserWindow.getFocusedWindow().close()
                         }).catch(err => console.log(err))
                     }).catch(err => console.log(err))
@@ -139,9 +158,10 @@ class ProductPage {
                 authentication.db.findOne().then(auth => {
                     Warehouse(auth.data.path).findOne({ where: { name: body.name } }).then(warehouse => {
                         if( !warehouse ) {
-                            return Warehouse(auth.data.path).create({ name: body.name, note: body.note }).then(wr => {
+                            return Warehouse(auth.data.path).create({ name: body.name, note: body.note }).then(async wr => {
+                                await Log(auth.data.path).create({ targetId: wr.id, action: 'create', type: 'warehouse' })
                                 Warehouse(auth.data.path).findAll().then(wr => {
-                                    res.redirect('/product/warehouse/edit?newAccount='+req.params.newAccount+'&warehouse=' + wr.length)
+                                    res.redirect('/product/warehouse/edit?newAccount='+req.params.newAccount+'&warehouse=' + wr.length + '&successMessage=' + body.name)
                                 }).catch(err => console.log(err))
                             }).catch(err => console.log(err))
                         } else {
@@ -155,9 +175,10 @@ class ProductPage {
             updateStock: (req, res) => {
                 let body = req.body
                 authentication.db.findOne().then(auth => {
-                    Product(auth.data.path).findOne({ id: req.params.id }).then(product => {
-                        Product(auth.data.path).update({ name: body.name, unit: body.unit }, { where: { id: req.params.id } }).then(product => {
-                            res.redirect('/product/updateStock')
+                    Product(auth.data.path).findOne({ id: req.params.id }).then(products => {
+                        Product(auth.data.path).update({ name: body.name, unit: body.unit }, { where: { id: req.params.id } }).then(async product1 => {
+                            await Log(auth.data.path).create({ targetId: req.params.id, action: 'update', type: 'product' })
+                            return res.redirect('/product/updateStock')
                         }).catch(err => console.log(err))
                     }).catch(err => console.log(err))
                 }).catch(err => console.log(err))
@@ -192,7 +213,8 @@ class ProductPage {
                           }
 
                         if( product.warehouseId == body.warehouse ) {
-                            return Product(auth.data.path).update({ detail: deductStock(detail, opname).updatedStock }, { where: { id: req.params.productId } }).then(product1 => {
+                            return Product(auth.data.path).update({ detail: deductStock(detail, opname).updatedStock }, { where: { id: req.params.productId } }).then(async product1 => {
+                                await Log(auth.data.path).create({ targetId: req.params.productId, action: 'update', type: 'stock-product' })
                                 return res.redirect('/product/warehouse/' + req.params.id + '?successMessage=' + product.name)
                             }).catch(err => console.log(err))
                         } else {
@@ -230,13 +252,17 @@ class ProductPage {
                                 console.log(detailDiff)
                                 if( productDiff ) {
                                     Product(auth.data.path).update({ detail: deductStock(detail, body.qty).updatedStock }, { where: { id: req.params.productId } }).then(product1 => {
-                                        Product(auth.data.path).update({ detail: transferStock(deductStock(detail, body.qty).deductedStock, detailDiff) }, { where: { warehouseId: body.warehouse, name: body.name } }).then(product2 => {
+                                        Product(auth.data.path).update({ detail: transferStock(deductStock(detail, body.qty).deductedStock, detailDiff) }, { where: { warehouseId: body.warehouse, name: body.name } }).then(async product2 => {
+                                            await Log(auth.data.path).create({ targetId: req.params.productId, action: 'update', type: 'between-warehouse-stock-product' })
+                                            await Log(auth.data.path).create({ targetId: productDiff.id, action: 'update', type: 'target-between-warehouse-stock-product' })
                                             return res.redirect('/product/warehouse/' + req.params.id + '?successMessage=' + product.name)
                                         }).catch(err => console.log(err))
                                     }).catch(err => console.log(err))
                                 } else {
                                     Product(auth.data.path).update({ detail: deductStock(detail, body.qty).updatedStock }, { where: { id: req.params.productId } }).then(product1 => {
-                                        Product(auth.data.path).create({ name: body.name, warehouseId: body.warehouse, unit: body.unit, detail: transferStock(deductStock(detail, body.qty).deductedStock, detailDiff).reverse() }).then(product2 => {
+                                        Product(auth.data.path).create({ name: body.name, warehouseId: body.warehouse, unit: body.unit, detail: transferStock(deductStock(detail, body.qty).deductedStock, detailDiff).reverse() }).then(async product2 => {
+                                            await Log(auth.data.path).create({ targetId: req.params.productId, action: 'update', type: 'between-warehouse-stock-product' })
+                                            await Log(auth.data.path).create({ targetId: product2.id, action: 'create', type: 'target-between-warehouse-stock-product' })
                                             return res.redirect('/product/warehouse/' + req.params.id + '?successMessage=' + product.name)
                                         }).catch(err => console.log(err))
                                     }).catch(err => console.log(err))
@@ -245,6 +271,20 @@ class ProductPage {
                         }
                     }).catch(err => console.log(err))
                 }).catch(err => console.log(err))
+            },
+            modifyWarehouse: (req, res) => {
+                let body = req.body
+                authentication.db.findOne().then(auth => {
+                    Warehouse(auth.data.path).findOne({ where: { name: body.name } }).then(warehouse => {
+                        if( warehouse && warehouse.id != req.params.id ) {
+                            return res.redirect('/product/warehouseDetail/modify/' + req.params.id + '?errorMessage=duplicated')
+                        }
+                        Warehouse(auth.data.path).update({ name: body.name, note: body.note }, { where: { id: req.params.id } }).then(async wr => {
+                            await Log(auth.data.path).create({ targetId: req.params.id, action: 'update', type: 'warehouse' })
+                            return Electron.BrowserWindow.getFocusedWindow().close()
+                        })
+                    }).catch(err => console.log(err))
+                })
             }
         }
     }

@@ -3,6 +3,7 @@ const Folder = require('../Models/folder')
 const File = require('../Models/file')
 const Data = require('../Models/Tables/Data')
 const User = require('../Models/Tables/User')
+const Log = require('../Models/Tables/Log')
 const AuthData = require('../Models/Tables/AuthData')
 const moment = require('moment')
 
@@ -21,6 +22,7 @@ module.exports = {
             authNow: async () => {
                 await AuthData('./.appData/authentication.db').sync({ force: true })
                 if( data != undefined && user != undefined ) {
+                    await Log(data.path).create({ targetId: user.id, action: 'login', type: 'user' })
                     await User(data.path).update({ interactDetail: { startTime: moment().format(), endTime: null } }, { where: { id: user.id } })
                     return AuthData('./.appData/authentication.db').create(authData)
                 }
@@ -38,6 +40,7 @@ module.exports = {
                 startTimeBefore = user.interactDetail.startTime
                 userName = user.name
                 duration = new Date(endTimeAfter) - new Date(startTimeBefore)
+                await Log(auth.data.path).create({ targetId: auth.user.id, action: 'logout', type: 'user' })
                 await User(auth.data.path).update({ interactDetail: { startTime: startTimeBefore, endTime: endTimeAfter } }, { where: { id: user.id } }).then().catch(err => console.log(err))
                 await AuthData('./.appData/authentication.db').destroy({ where: { data: { id: auth.data.id } } }).then().catch(err => console.log(err))
                 AuthData('./.appData/authentication.db').create({ data: {}, user: {}, type: 'unauthenticated' }).then().catch(err => console.log(err))

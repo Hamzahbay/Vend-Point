@@ -23,6 +23,7 @@ const Inclusion = require('../Models/Tables/Inclusion')
 const ExpensesInvoice = require('../Models/Tables/ExpensesInvoice')
 const InclusionInvoice = require('../Models/Tables/InclusionInvoice')
 const Warehouse = require('../Models/Tables/Warehouse')
+const Log = require('../Models/Tables/Log')
 
 // Encrypt and decrypt middleware
 const encryption = require('../Middlewares/encrypt')
@@ -201,6 +202,7 @@ class LandingPage {
                         await PurchaseInvoice(file.fullPath).sequelize.sync({ force: true })
                         await Memo(file.fullPath).sequelize.sync({ force: true })
                         await Warehouse(file.fullPath).sequelize.sync({ force: true })
+                        await Log(file.fullPath).sequelize.sync({ force: true })
 
                         if( setPassword == true ) {
                             let salt = bcrypt.genSaltSync(10)
@@ -213,8 +215,10 @@ class LandingPage {
                                 loadingTime += 100
                                 User(file.fullPath).create({ name: body.name, password, role: 'admin', authority: { type: 'default', level: 'full-access' } }).then(async user => {
                                     loadingTime += 100
-                                    ;(await authentication.authenticate(data, user)).authNow().then(auth => {
+                                    ;(await authentication.authenticate(data, user)).authNow().then(async auth => {
                                         loadingTime += 100
+                                        await Log(file.fullPath).create({ targetId: data.id, action: 'create', type: 'data' })
+                                        await Log(file.fullPath).create({ targetId: user.id, action: 'create', type: 'user' })
                                         return setTimeout(() => res.redirect('/home?justRegistered=on&dataName=' + dataName), loadingTime <= 2000318464 ? loadingTime+1000:loadingTime)
                                     }).catch(err => console.log(err))
                                 }).catch(err => console.log(err))

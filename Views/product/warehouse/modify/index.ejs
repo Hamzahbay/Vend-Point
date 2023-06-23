@@ -111,69 +111,43 @@ body {
     color: white;
     transition: linear 500ms;
 }
-.success-message {
-    background-color: green;
-}
     </style>
 
     <div class="container">
-        <form action="/product/warehouse/edit/<%= query.newAccount != undefined ? query.newAccount:'off' %>" method="POST" class="form-container">
-            <h2><center>Tambah Gudang</center></h2>
+        <form action="/product/warehouseDetail/modify/<%= params.id %>" method="POST" class="form-container">
+            <h2><center>Edit Gudang</center></h2>
             
             <div class="form-box">
                 <div class="box mother-box">
                     <div class="box-container">
                         <label for=""><b>Nama</b></label>
-                        <input type="text" placeholder="masukan nama gudang" name="name" required id="name">
+                        <input type="text" placeholder="masukan nama gudang" name="name" required id="name" value="<%= warehouse.name %>">
                     </div>
                     <div class="box-container">
                         <label for=""><b>Keterangan</b></label>
-                        <input type="text" placeholder="masukan keterangan gudang (optional)" name="note" id="note">
+                        <input type="text" placeholder="masukan keterangan gudang (optional)" name="note" id="note" value="<%= warehouse.note %>">
                     </div>
                 </div>
             </div>
             
             <div class="btn-container">
-                <% if( parseInt(query.warehouse) > 0 && query.newAccount != undefined ) { %>
-                    <% if( query.newAccount == 'on' ) { %>
-                        <button class="btn close-btn">Tutup</button>
-                    <% } %>
-                <% } %>
                 <button type="submit" class="submit-btn btn">Simpan</button>
             </div>
-        </form>
-        <form action="/product/warehouse/edit/<%= query.newAccount != undefined ? query.newAccount:'off' %>" method="POST" class="display-none close-form">
-            <input type="text" name="status" value="close">
         </form>
     </div>
 
     <%- query.errorMessage != undefined ? `<div class="error-message">Nama gudang telah digunakan</div>` : '' %>
-    <%- query.successMessage != undefined ? `<div class="error-message success-message">Gudang ${query.successMessage} berhasil ditambahkan</div>` : '' %>
     
 </body>
-<script src="../../script/socket.io.js"></script>
 <script>
-    const socket = io()
-
-    document.querySelector('.close-btn').addEventListener('click', function(e) {
-        e.preventDefault()
-        document.querySelector('.close-form').submit()
-    })
-    // document.querySelector('.submit-button').addEventListener('click', function(e) {
-    //     if( document.getElementById('name').value != '' ) {
-    //         socket.emit('post', { name: document.getElementById('name').value, note: document.getElementById('note').value })
-    //     }
-    // })
-
-
     if( document.querySelector('.error-message') != undefined ) {
-    document.querySelector('.error-message').innerText = document.querySelector('.error-message').innerText.split('-').reduce((acc, curr) => acc + ' ' + curr)
-    
-    setTimeout(() => document.querySelector('.error-message').style.bottom = '20px', 100)
-    setTimeout(() => {
-        document.querySelector('.error-message').style.bottom = '-50px'
-        setTimeout(() => document.querySelector('.error-message').remove(), 1000)
-    }, 3200)
-}
+        document.querySelector('.error-message').innerText = document.querySelector('.error-message').innerText.split('-').reduce((acc, curr) => acc + ' ' + curr)
+        
+        setTimeout(() => document.querySelector('.error-message').style.bottom = '20px', 100)
+        setTimeout(() => {
+            document.querySelector('.error-message').style.bottom = '-50px'
+            setTimeout(() => document.querySelector('.error-message').remove(), 1000)
+        }, 3200)
+    }
 </script>
 </html>

@@ -59,27 +59,9 @@
     </div>
 
     <div class="warehouseContexMenu display-none" data-id="">
-        <div class="item" data-link="/product/warehouse/edit/"><img src="img/pencil.png" alt=""> Edit gudang</div>
+        <div class="item" data-link="/product/warehouseDetail/update/"><img src="img/pencil.png" alt=""> Edit gudang</div>
     </div>
     
 </body>
 <script src="script/product.js"></script>
-<script>
-    document.querySelectorAll('.warehouse').forEach(warehouse => {
-        warehouse.addEventListener('contextmenu', function(e) {
-            document.querySelector('.warehouseContexMenu').setAttribute('data-id', this.dataset.id)
-            document.querySelector('.warehouseContexMenu').classList.remove('display-none')
-            document.querySelector('.warehouseContexMenu').style.left = e.clientX + 'px'
-            document.querySelector('.warehouseContexMenu').style.top = e.clientY + 'px'
-        })
-    })
-    document.querySelectorAll('.warehouseContexMenu .item').forEach(item => {
-        item.addEventListener('click', function(e) {
-            location.href = this.dataset.link + this.parentElement.dataset.id
-        })
-    })
-    document.body.addEventListener('click', function(e) {
-        document.querySelector('.warehouseContexMenu').classList.add('display-none')
-    })
-</script>
 </html>
