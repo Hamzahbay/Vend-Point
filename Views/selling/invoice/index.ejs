@@ -64,7 +64,7 @@
                                 <td>
                                     <div class="number-input">
                                         <div class="decrement">-</div>
-                                        <input type="number" name="qty" class="qty" value="0" min="0"step="1" placeholder="Masukan jumlah" required>
+                                        <input type="number" name="qty" class="qty" min="0"step="1" placeholder="Masukan jumlah" required>
                                         <div class="increment">+</div>
                                     </div>                                      
                                 </td>
@@ -180,9 +180,9 @@
                         <tr>
                             <td><label for="pay">Bayar</label></td>
                             <td>:</td>
-                            <td>
+                            <td style="text-align: left;">
                                 <div class="checkbox-wrapper-46">
-                                    <input class="inp-cbx" id="cbx-46" type="checkbox" />
+                                    <input class="inp-cbx" id="cbx-46" type="checkbox" checked />
                                     <label class="cbx" for="cbx-46"><span>
                                       <svg width="12px" height="10px" viewbox="0 0 12 10">
                                         <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
@@ -206,6 +206,39 @@
                                 <div class="price-input readonly-input col-input">
                                     <div class="currency">Rp. </div>
                                     <input type="text" name="changeMoney" id="changeMoney" class="subtotal change" readonly style="cursor: pointer; text-align: right;">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <div class="td-last">
+                                    <div class="col">
+                                        <div class="">
+                                            <div class="checkbox-wrapper-461  checkbox-col">
+                                                <input class="inp-cbx461" id="cbx-461" type="checkbox" checked />
+                                                <label class="cbx461" for="cbx-461"><span>
+                                                  <svg width="12px" height="10px" viewbox="0 0 12 10">
+                                                    <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                                                  </svg></span><span>Posting</span>
+                                                </label>
+                                            </div>
+                                            <div class="checkbox-wrapper-462  checkbox-col">
+                                                <input class="inp-cbx462" id="cbx-462" type="checkbox" checked />
+                                                <label class="cbx462" for="cbx-462"><span>
+                                                  <svg width="12px" height="10px" viewbox="0 0 12 10">
+                                                    <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                                                  </svg></span><span>Cetak</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <button class="cssbuttons-io-button"> Lanjut
+                                            <div class="icon">
+                                                <img src="../img/right-arrow1.png" alt="">
+                                            </div>
+                                        </button>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -237,12 +270,12 @@
     // Set increment and decrement qty
     document.querySelectorAll('.qty').forEach(x => {
         x.previousElementSibling.addEventListener('click', function(e) {
-            if( x.value == 0 ) return
+            if( x.value == 0 ) return 
             x.value = parseFloat(x.value) - 1
             let subtotal = x.parentElement.parentElement.parentElement.querySelector('.subtotal')
             let price = parseInt(x.parentElement.parentElement.parentElement.querySelector('.price').value.replace(/,/g, ''))
             subtotal.value = x.value * price
-
+            
             if( subtotal.value.length > 3 ) {
                 let valBefore = subtotal.value.split(',')
                 let valAfter = valBefore.join('').split('').reverse()
@@ -255,6 +288,7 @@
             }
         })
         x.nextElementSibling.addEventListener('click', function(e) {
+            if( x.value == '' ) return this.previousElementSibling.value = 0
             x.value = parseFloat(x.value) + 1
             let subtotal = x.parentElement.parentElement.parentElement.querySelector('.subtotal')
             let price = parseInt(x.parentElement.parentElement.parentElement.querySelector('.price').value.replace(/,/g, ''))
@@ -387,5 +421,11 @@
             })
         }
     })
+
+    // document.querySelectorAll('.checkbox-col').forEach(x => {
+    //     x.firstElementChild.addEventListener('click', function(e) {
+    //         e.preventDefault()
+    //     })
+    // })
 </script>
 </html>

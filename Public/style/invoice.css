@@ -371,6 +371,29 @@ body {
     border-bottom: solid 1px #ccc;
 }
 
+.td-last {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    /* background-color: #ffd; */
+}
+.td-last .col {
+    /* margin: 0 20px;
+    background-color: #ccc; */
+    flex-grow: 1;
+}
+/* .td-last .col:first-child {
+    display: flex;
+    justify-content: flex-end;
+} */
+.td-last .col:last-child {
+    display: flex;
+    justify-content: flex-end;
+}
+.td-last .col:last-child button {
+    transform:  translateY(3px);
+}
+
 
 .empty {
     height: 5rem;
@@ -624,3 +647,217 @@ body {
       transform: scale(0.9);
     }
   }
+
+  .checkbox-wrapper-461 input[type="checkbox"] {
+    display: none;
+    visibility: hidden;
+  }
+
+  .checkbox-wrapper-461 .cbx461 {
+    margin: auto;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+  }
+  .checkbox-wrapper-461 .cbx461 span {
+    display: inline-block;
+    vertical-align: middle;
+    transform: translate3d(0, 0, 0);
+  }
+  .checkbox-wrapper-461 .cbx461 span:first-child {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    transform: scale(1);
+    vertical-align: middle;
+    border: 1px solid #9098A9;
+    transition: all 0.2s ease;
+  }
+  .checkbox-wrapper-461 .cbx461 span:first-child svg {
+    position: absolute;
+    top: 3px;
+    left: 2px;
+    fill: none;
+    stroke: #FFFFFF;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 16px;
+    stroke-dashoffset: 16px;
+    transition: all 0.3s ease;
+    transition-delay: 0.1s;
+    transform: translate3d(0, 0, 0);
+  }
+  .checkbox-wrapper-461 .cbx461 span:first-child:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: #146C94;
+    display: block;
+    transform: scale(0);
+    opacity: 1;
+    border-radius: 50%;
+  }
+  .checkbox-wrapper-461 .cbx461 span:last-child {
+    padding-left: 8px;
+  }
+  .checkbox-wrapper-461 .cbx461:hover span:first-child {
+    border-color: #146C94;
+  }
+
+  .checkbox-wrapper-461 .inp-cbx461:checked + .cbx461 span:first-child {
+    background: #146C94;
+    border-color: #146C94;
+    animation: wave-461 0.4s ease;
+  }
+  .checkbox-wrapper-461 .inp-cbx461:checked + .cbx461 span:first-child svg {
+    stroke-dashoffset: 0;
+  }
+  .checkbox-wrapper-461 .inp-cbx461:checked + .cbx461 span:first-child:before {
+    transform: scale(3.5);
+    opacity: 0;
+    transition: all 0.6s ease;
+  }
+
+  @keyframes wave-461 {
+    50% {
+      transform: scale(0.9);
+    }
+  }
+
+
+  .checkbox-wrapper-462 input[type="checkbox"] {
+    display: none;
+    visibility: hidden;
+  }
+
+  .checkbox-wrapper-462 .cbx462 {
+    margin: auto;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+  }
+  .checkbox-wrapper-462 .cbx462 span {
+    display: inline-block;
+    vertical-align: middle;
+    transform: translate3d(0, 0, 0);
+  }
+  .checkbox-wrapper-462 .cbx462 span:first-child {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    transform: scale(1);
+    vertical-align: middle;
+    border: 1px solid #9098A9;
+    transition: all 0.2s ease;
+  }
+  .checkbox-wrapper-462 .cbx462 span:first-child svg {
+    position: absolute;
+    top: 3px;
+    left: 2px;
+    fill: none;
+    stroke: #FFFFFF;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 16px;
+    stroke-dashoffset: 16px;
+    transition: all 0.3s ease;
+    transition-delay: 0.1s;
+    transform: translate3d(0, 0, 0);
+  }
+  .checkbox-wrapper-462 .cbx462 span:first-child:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: #146C94;
+    display: block;
+    transform: scale(0);
+    opacity: 1;
+    border-radius: 50%;
+  }
+  .checkbox-wrapper-462 .cbx462 span:last-child {
+    padding-left: 8px;
+  }
+  .checkbox-wrapper-462 .cbx462:hover span:first-child {
+    border-color: #146C94;
+  }
+
+  .checkbox-wrapper-462 .inp-cbx462:checked +  .cbx462 span:first-child {
+    background: #146C94;
+    border-color: #146C94;
+    animation: wave-462 0.4s ease;
+  }
+  .checkbox-wrapper-462 .inp-cbx462:checked +  .cbx462 span:first-child svg {
+    stroke-dashoffset: 0;
+  }
+  .checkbox-wrapper-462 .inp-cbx462:checked +  .cbx462 span:first-child:before {
+    transform: scale(3.5);
+    opacity: 0;
+    transition: all 0.6s ease;
+  }
+
+  @keyframes wave-462 {
+    50% {
+      transform: scale(0.9);
+    }
+  }
+
+
+
+
+.container .bottom-content .content table tr td .cssbuttons-io-button {
+    cursor: pointer;
+    background: #146C94;
+    color: white;
+    font-family: inherit;
+    padding: 0.35em;
+    padding-left: 1.2em;
+    font-size: 17px;
+    font-weight: 500;
+    border-radius: 0.9em;
+    border: none;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    box-shadow: inset 0 0 1.6em -0.6em #146C94;
+    overflow: hidden;
+    position: relative;
+    height: 2.8em;
+    padding-right: 3.3em;
+}
+
+.container .bottom-content .content table tr td .cssbuttons-io-button .icon {
+    background: white;
+    margin-left: 1em;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.2em;
+    width: 2.2em;
+    border-radius: 0.7em;
+    box-shadow: 0.1em 0.1em 0.6em 0.2em #146C94;
+    right: 0.3em;
+    transition: all 0.3s;
+}
+
+.container .bottom-content .content table tr td .cssbuttons-io-button:hover .icon {
+    width: calc(100% - 0.6em);
+}
+
+.container .bottom-content .content table tr td .cssbuttons-io-button .icon img {
+    width: 1.1em;
+    transition: transform 0.3s;
+    color: #146C94;
+}
+
+.container .bottom-content .content table tr td .cssbuttons-io-button:hover .icon img {
+    transform: translateX(0.1em);
+}
+
+.container .bottom-content .content table tr td .cssbuttons-io-button:active .icon {
+    transform: scale(0.95);
+}
