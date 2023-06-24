@@ -40,7 +40,7 @@ class SellingPage {
                         Product(auth.data.path).findAll().then(product => {
                             Selling(auth.data.path).findAll().then(selling => {
                                 Warehouse(auth.data.path).findAll().then(warehouse => {
-                                    res.render('selling/invoice/index', { query: req.query, buyer, product, selling, warehouse })
+                                    res.render('selling/invoice/index', { query: req.query, buyer, product, selling, warehouse, auth })
                                 })
                             })
                         })

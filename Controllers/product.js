@@ -252,7 +252,6 @@ class ProductPage {
 
                             Product(auth.data.path).findOne({ where: { warehouseId: body.warehouse, name: body.name } }).then(productDiff => {
                                 let detailDiff = productDiff?.detail || []
-                                console.log(detailDiff)
                                 if( productDiff ) {
                                     Product(auth.data.path).update({ detail: deductStock(detail, body.qty).updatedStock }, { where: { id: req.params.productId } }).then(product1 => {
                                         Product(auth.data.path).update({ detail: transferStock(deductStock(detail, body.qty).deductedStock, detailDiff) }, { where: { warehouseId: body.warehouse, name: body.name } }).then(async product2 => {

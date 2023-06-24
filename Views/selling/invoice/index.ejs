@@ -9,8 +9,129 @@
 <body>
 
     <div class="back"><img src="../img/left-arrow-blue.png" alt=""></div>
-    <div class="cotainer">
-        
+    <div class="container">
+        <form action="/selling/invoice" method="POST">
+            <div class="upper-content">
+                <div class="title"><h2>Faktur Penjualan</h2></div>
+                <div class="content">
+                    <% if( auth.user.role == 'admin' ) { %>
+                        <div class="row">
+                            <label for="date">Tanggal</label>
+                            <input type="date" name="date" id="date" class="input-data invoice-date">
+                        </div>
+                    <% } %>
+                    <div class="row">
+                        <label for="buyer">Pembeli</label>
+                        <input type="text" value="" readonly class="input-data buyer" style="cursor: pointer; border: solid 1px #146C94;" placeholder="Masukan pembeli">
+                        <input type="text" name="buyer" id="buyer" class="input-data display-none">
+                    </div>
+                    <div class="row number-row">
+                        <label for="number">No</label>
+                        <input type="text" readonly value="<%= selling.length == 0 ? 1 : selling[selling.length-1].detail.number + 1 %>" class="input-data number" style="cursor: default;">
+                        <input type="text" name="number" id="number" class="input-data display-none" value="<%= selling.length == 0 ? 1 : selling[selling.length-1].detail.number + 1 %>">
+                    </div>
+                    <div class="row warehouse-row">
+                        <label for="warehouse">Gudang</label>
+                        <select name="warehouse" id="warehouse">
+                            <% warehouse.forEach(x => { %> %>
+                                <option value="<%= x.id %>"><%= x.name %></option>
+                            <% }) %> %>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <label for="note">Keterangan</label>
+                        <input type="text" name="note" id="note" class="input-data note" placeholder="Masukan keterangan">
+                    </div>
+                </div>
+            </div>
+            <div class="middle-content">
+                <div class="content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;">*</th>
+                                <th style="width: 35%; text-align: left; padding-left: 10px;">Nama Barang</th>
+                                <th style="width: 10%;">Jumlah</th>
+                                <th style="width: 25%;">Harga</th>
+                                <th style="width: 30%;">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr>
+                                <td style="text-align: center;">1 </td>
+                                <td>
+                                    <p>kasur sh</p>
+                                    <input type="text" name="id" id="id" class="display-none">
+                                </td>
+                                <td>
+                                    <div class="number-input">
+                                        <div class="decrement">-</div>
+                                        <input type="number" class="qty" value="0" min="0"step="1" placeholder="Masukan jumlah">
+                                        <div class="increment">+</div>
+                                    </div>                                      
+                                </td>
+                                <td>
+                                    <div class="price-input">
+                                        <% if( auth.user.role == 'admin' ) { %>
+                                            <div class="currency">Rp. </div>
+                                            <input type="text" name="price" id="price" class="input-data price" style="text-align: right;" placeholder="Masukan harga">
+                                        <% } else { %>
+                                            <input type="text" readonly value="3200" class="price-read-only" style="text-align: right; cursor: default;">
+                                            <input type="text" name="price" id="price" class="input-data price display-none">
+                                        <% } %>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="price-input">
+                                        <div class="currency">Rp. </div>
+                                        <input type="text" readonly value="" class="subtotal" style="text-align: right; cursor: default;" placeholder="subtotal">
+                                    </div>
+                                </td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                    <div class="empty"></div>
+                    <div class="add-row">
+                        <div class="add-row-btn">Tambah Barang<img src="../img/plus.png" alt=""></div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-content">
+                <div class="content">
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="delivery-status"><h3>Pengiriman tidak Aktif</h3></div>
+                        <div class="checkbox-wrapper-35">
+                            <input class="switch delivery" type="checkbox" id="switch" name="switch">
+                            <label for="switch">
+                                <span class="switch-x-text">Pengiriman </span>
+                                <span class="switch-x-toggletext">
+                                    <span class="switch-x-unchecked"><span class="switch-x-hiddenlabel">Unchecked: </span>Off</span>
+                                    <span class="switch-x-checked"><span class="switch-x-hiddenlabel">Checked: </span>On</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label for="deliveryCost">Biaya Pengiraman</label>
+                        <div class="fee-input">
+                            <div class="currency">Rp. </div>
+                            <input type="text" name="deliveryCost" id="deliveryCost" class="delivery-cost delivery-option" placeholder="Masukan biaya pengiraman" style="text-align: right;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label for="deliveryDate">Tanggal Pengiraman</label>
+                        <input type="date" name="deliveryDate" id="deliveryDate" class="delivery-date single-box-input delivery-option">
+                    </div>
+                    <div class="row">
+                        <label for="notebook">Catatan</label>
+                        <textarea name="notebook" id="notebook" placeholder="Masukan catatan (optional)" class="delivery-option"></textarea>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="row"></div>
+                </div>
+            </div>
+        </form>
     </div>
     <div class="footer">
         <div class="cpr">500 | CopyRight 2023</div>
@@ -21,6 +142,169 @@
     // Back to landing page button
     document.querySelector('.back img').addEventListener('click', function(e) {
         window.location.href = '/selling'
+    })
+
+    // Set date now
+    if( document.querySelector('.invoice-date') != undefined ) {
+        document.querySelector('.invoice-date').value = new Date().toISOString().slice(0, 10)
+    }
+    document.querySelector('.delivery-date').value = new Date().toISOString().slice(0, 10)
+    document.querySelector('.delivery-date').addEventListener('change', function(e) {
+        if( new Date(new Date().toISOString().slice(0, 10)) > new Date(document.querySelector('.delivery-date').value) ) return this.value = new Date().toISOString().slice(0, 10)
+    })
+
+    // Set increment and decrement qty
+    document.querySelectorAll('.qty').forEach(x => {
+        x.previousElementSibling.addEventListener('click', function(e) {
+            if( x.value == 0 ) return
+            x.value = parseFloat(x.value) - 1
+            let subtotal = x.parentElement.parentElement.parentElement.querySelector('.subtotal')
+            let price = parseInt(x.parentElement.parentElement.parentElement.querySelector('.price').value.replace(/,/g, ''))
+            subtotal.value = x.value * price
+
+            if( subtotal.value.length > 3 ) {
+                let valBefore = subtotal.value.split(',')
+                let valAfter = valBefore.join('').split('').reverse()
+                let val = []
+            
+                for( let i = 0; i < valAfter.join('').length; i+=3 ) {
+                    val.push(valAfter.slice(i, i+3).reverse().join(''))
+                }
+                subtotal.value = val.reverse()
+            }
+        })
+        x.nextElementSibling.addEventListener('click', function(e) {
+            x.value = parseFloat(x.value) + 1
+            let subtotal = x.parentElement.parentElement.parentElement.querySelector('.subtotal')
+            let price = parseInt(x.parentElement.parentElement.parentElement.querySelector('.price').value.replace(/,/g, ''))
+            subtotal.value = x.value * price
+
+            if( subtotal.value.length > 3 ) {
+                let valBefore = subtotal.value.split(',')
+                let valAfter = valBefore.join('').split('').reverse()
+                let val = []
+            
+                for( let i = 0; i < valAfter.join('').length; i+=3 ) {
+                    val.push(valAfter.slice(i, i+3).reverse().join(''))
+                }
+                subtotal.value = val.reverse()
+            }
+        })
+        x.addEventListener('keydown', function(e) {
+            if( e.code == 'Comma' || e.code == 'Minus' || e.code == 'Equal' || e.key == 'e' ) {
+                return e.preventDefault()
+            }
+        })
+        x.addEventListener('keyup', function(e) {
+            let subtotal = x.parentElement.parentElement.parentElement.querySelector('.subtotal')
+            let price = parseInt(x.parentElement.parentElement.parentElement.querySelector('.price').value.replace(/,/g, ''))
+            subtotal.value = x.value * price
+
+            if( subtotal.value.length > 3 ) {
+                let valBefore = subtotal.value.split(',')
+                let valAfter = valBefore.join('').split('').reverse()
+                let val = []
+            
+                for( let i = 0; i < valAfter.join('').length; i+=3 ) {
+                    val.push(valAfter.slice(i, i+3).reverse().join(''))
+                }
+                subtotal.value = val.reverse()
+            }
+        })
+    })
+    document.querySelectorAll('.price')?.forEach(x => {
+        x.addEventListener('keydown', function(e) {
+            if( isNaN(e.key) && e.key != 'Backspace' && e.key != 'ArrowLeft' && e.key != 'ArrowRight' && e.key != 'Tab' ) return e.preventDefault()
+            if( e.code == 'Space' ) return e.preventDefault()
+        })
+        x.addEventListener('keyup', function(e) {
+            if( this.value.length > 3 ) {
+                let valBefore = this.value.split(',')
+                let valAfter = valBefore.join('').split('').reverse()
+                let val = []
+            
+                for( let i = 0; i < valAfter.join('').length; i+=3 ) {
+                    val.push(valAfter.slice(i, i+3).reverse().join(''))
+                }
+                this.value = val.reverse()
+            }
+            let subtotal = x.parentElement.parentElement.parentElement.querySelector('.subtotal')
+            let price = parseInt(this.value.replace(/,/g, ''))
+            subtotal.value = x.parentElement.parentElement.parentElement.querySelector('.qty').value * price
+
+            if( subtotal.value.length > 3 ) {
+                let valBefore = subtotal.value.split(',')
+                let valAfter = valBefore.join('').split('').reverse()
+                let val = []
+            
+                for( let i = 0; i < valAfter.join('').length; i+=3 ) {
+                    val.push(valAfter.slice(i, i+3).reverse().join(''))
+                }
+                subtotal.value = val.reverse()
+            }
+        })
+    })
+    document.querySelectorAll('.price-read-only')?.forEach(x => {
+        if( x.value.length > 3 ) {
+            let valBefore = x.value.split(',')
+            let valAfter = valBefore.join('').split('').reverse()
+            let val = []
+        
+            for( let i = 0; i < valAfter.join('').length; i+=3 ) {
+                val.push(valAfter.slice(i, i+3).reverse().join(''))
+            }
+            x.value = val.reverse()
+        }
+    })
+    document.querySelectorAll('.subtotal')?.forEach(x => {
+        if( x.value.length > 3 ) {
+            let valBefore = x.value.split(',')
+            let valAfter = valBefore.join('').split('').reverse()
+            let val = []
+        
+            for( let i = 0; i < valAfter.join('').length; i+=3 ) {
+                val.push(valAfter.slice(i, i+3).reverse().join(''))
+            }
+            x.value = val.reverse()
+        }
+    })
+
+    document.querySelector('.delivery-cost').addEventListener('keyup', function(e) {
+        if( this.value.length > 3 ) {
+            let valBefore = this.value.split(',')
+            let valAfter = valBefore.join('').split('').reverse()
+            let val = []
+        
+            for( let i = 0; i < valAfter.join('').length; i+=3 ) {
+                val.push(valAfter.slice(i, i+3).reverse().join(''))
+            }
+            this.value = val.reverse()
+        }
+    })
+    document.querySelector('.delivery-cost').addEventListener('keydown', function(e) {
+        if( isNaN(e.key) && e.key != 'Backspace' && e.key != 'ArrowLeft' && e.key != 'ArrowRight' && e.key != 'Tab' ) return e.preventDefault()
+        if( e.code == 'Space' ) return e.preventDefault()
+    })
+
+    document.querySelectorAll('.delivery-option').forEach(x => {
+        x.setAttribute('disabled', '')
+    })
+    document.querySelector('.delivery').addEventListener('change', function(e) {
+        if( this.checked ) {
+            document.querySelector('.delivery-status').style.backgroundColor = 'rgba(0, 0, 0, 0)'
+            document.querySelector('.delivery-status').style.color = 'rgba(0, 0, 0, 0)'
+            document.querySelector('.delivery-status').style.visibility = 'hidden'
+            document.querySelectorAll('.delivery-option').forEach(x => {
+                x.removeAttribute('disabled')
+            })
+        } else {
+            document.querySelector('.delivery-status').style.visibility = 'visible'
+            document.querySelector('.delivery-status').style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
+            document.querySelector('.delivery-status').style.color = 'white'
+            document.querySelectorAll('.delivery-option').forEach(x => {
+                x.setAttribute('disabled', '')
+            })
+        }
     })
 </script>
 </html>
