@@ -14,12 +14,10 @@
             <div class="upper-content">
                 <div class="title"><h2>Faktur Penjualan</h2></div>
                 <div class="content">
-                    <% if( auth.user.role == 'admin' ) { %>
-                        <div class="row">
-                            <label for="date">Tanggal</label>
-                            <input type="date" name="date" id="date" class="input-data invoice-date">
-                        </div>
-                    <% } %>
+                    <div class="row">
+                        <label for="date">Tanggal</label>
+                        <input type="date" name="date" id="date" class="input-data invoice-date" <%= auth.user.role != 'admin' ? 'readonly' : '' %>>
+                    </div>
                     <div class="row">
                         <label for="buyer">Pembeli</label>
                         <input type="text" value="" readonly class="input-data buyer" style="cursor: pointer; border: solid 1px #146C94;" placeholder="Masukan pembeli">
@@ -57,7 +55,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- <tr>
+                            <tr>
                                 <td style="text-align: center;">1 </td>
                                 <td>
                                     <p>kasur sh</p>
@@ -66,7 +64,7 @@
                                 <td>
                                     <div class="number-input">
                                         <div class="decrement">-</div>
-                                        <input type="number" class="qty" value="0" min="0"step="1" placeholder="Masukan jumlah">
+                                        <input type="number" name="qty" class="qty" value="0" min="0"step="1" placeholder="Masukan jumlah" required>
                                         <div class="increment">+</div>
                                     </div>                                      
                                 </td>
@@ -74,10 +72,10 @@
                                     <div class="price-input">
                                         <% if( auth.user.role == 'admin' ) { %>
                                             <div class="currency">Rp. </div>
-                                            <input type="text" name="price" id="price" class="input-data price" style="text-align: right;" placeholder="Masukan harga">
+                                            <input type="text" name="price" id="price" class="input-data price" style="text-align: right;" placeholder="Masukan harga" required>
                                         <% } else { %>
-                                            <input type="text" readonly value="3200" class="price-read-only" style="text-align: right; cursor: default;">
-                                            <input type="text" name="price" id="price" class="input-data price display-none">
+                                            <input type="text" readonly value="3200" class="price-read-only" style="text-align: right; cursor: default;" required>
+                                            <input type="text" name="price" id="price" class="input-data price display-none" required>
                                         <% } %>
                                     </div>
                                 </td>
@@ -87,7 +85,7 @@
                                         <input type="text" readonly value="" class="subtotal" style="text-align: right; cursor: default;" placeholder="subtotal">
                                     </div>
                                 </td>
-                            </tr> -->
+                            </tr>
                         </tbody>
                     </table>
                     <div class="empty"></div>
@@ -127,8 +125,91 @@
                         <textarea name="notebook" id="notebook" placeholder="Masukan catatan (optional)" class="delivery-option"></textarea>
                     </div>
                 </div>
-                <div class="content">
-                    <div class="row"></div>
+                <div class="content total-content">
+                    <table>
+                        <tr>
+                            <td><label for="totalPurchase">Total Penjualan</label></td>
+                            <td>:</td>
+                            <td></td>
+                            <td>
+                                <div class="price-input readonly-input col-input">
+                                    <div class="currency">Rp. </div>
+                                    <input type="text" name="totalPurchase" id="totalPurchase" class="subtotal" readonly style="cursor: pointer; text-align: right;">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="discount">Diskon</label></td>
+                            <td>:</td>
+                            <td>
+                                <div class="discount-input col-input">
+                                    <input type="number" name="discount" id="discount" class="discount" value="0" min="0"step="1" placeholder="Masukan diskon" required>
+                                    <div class="percent">%</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="price-input readonly-input col-input">
+                                    <div class="currency">Rp. </div>
+                                    <input type="text" name="discountTotal" id="discountTotal" class="subtotal" readonly style="cursor: pointer; text-align: right;">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="totalAfterDiscount">Total Setalah Diskon</label></td>
+                            <td>:</td>
+                            <td></td>
+                            <td>
+                                <div class="price-input readonly-input col-input">
+                                    <div class="currency">Rp. </div>
+                                    <input type="text" name="totalAfterDiscount" id="totalAfterDiscount" class="subtotal after-discount" readonly style="cursor: pointer; text-align: right;">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="totalPlusShippingCost">Total (+ Biaya Pengiriman)</label></td>
+                            <td>:</td>
+                            <td></td>
+                            <td>
+                                <div class="price-input readonly-input col-input">
+                                    <div class="currency">Rp. </div>
+                                    <input type="text" name="totalPlusShippingCost" id="totalPlusShippingCost" class="subtotal all-total" readonly style="cursor: pointer; text-align: right;">
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><label for="pay">Bayar</label></td>
+                            <td>:</td>
+                            <td>
+                                <div class="checkbox-wrapper-46">
+                                    <input class="inp-cbx" id="cbx-46" type="checkbox" />
+                                    <label class="cbx" for="cbx-46"><span>
+                                      <svg width="12px" height="10px" viewbox="0 0 12 10">
+                                        <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                                      </svg></span><span>Tunai</span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="price-input col-input">
+                                    <div class="currency">Rp. </div>
+                                    <input type="text" name="pay" id="pay" class="subtotal pay" style="text-align: right;">
+                                </div>
+                            </td>
+                        </tr>
+                            
+                        <tr>
+                            <td><label for="changeMoney">Kembalian</label></td>
+                            <td>:</td>
+                            <td></td>
+                            <td>
+                                <div class="price-input readonly-input col-input">
+                                    <div class="currency">Rp. </div>
+                                    <input type="text" name="changeMoney" id="changeMoney" class="subtotal change" readonly style="cursor: pointer; text-align: right;">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </form>
@@ -190,11 +271,11 @@
                 subtotal.value = val.reverse()
             }
         })
-        x.addEventListener('keydown', function(e) {
-            if( e.code == 'Comma' || e.code == 'Minus' || e.code == 'Equal' || e.key == 'e' ) {
-                return e.preventDefault()
-            }
-        })
+        // x.addEventListener('keydown', function(e) {
+        //     if( e.code == 'Comma' || e.code == 'Minus' || e.code == 'Equal' || e.key == 'e' ) {
+        //         return e.preventDefault()
+        //     }
+        // })
         x.addEventListener('keyup', function(e) {
             let subtotal = x.parentElement.parentElement.parentElement.querySelector('.subtotal')
             let price = parseInt(x.parentElement.parentElement.parentElement.querySelector('.price').value.replace(/,/g, ''))
